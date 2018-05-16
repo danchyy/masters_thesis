@@ -1,0 +1,23 @@
+{
+  "exp": {
+    "name": "fine_tune"
+  },
+  "model":{
+    "learning_rate": 0.001,
+    "optimizer": "adam"
+  },
+  "trainer":{
+    "num_epochs": 1,
+    "batch_size": 64,
+    "verbose_training": true,
+    "train_split": "cleaned_train_test.txt"
+  },
+  "callbacks":{
+    "checkpoint_monitor": "val_loss",
+    "checkpoint_mode": "min",
+    "checkpoint_save_best_only": true,
+    "checkpoint_save_weights_only": true,
+    "checkpoint_verbose": true,
+    "tensorboard_write_graph": true
+  }
+}
