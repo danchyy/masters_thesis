@@ -7,7 +7,7 @@ from utils.util_script import get_number_of_items
 
 class FineTunedTrainer(BaseTrain):
 
-    def __init__(self, model, data, config):
+    def __init__(self, model, data, config, validation_data):
         super().__init__(model, data, config)
         self.callbacks = []
         self.loss = []
@@ -15,7 +15,9 @@ class FineTunedTrainer(BaseTrain):
         self.val_loss = []
         self.val_acc = []
         self.init_callbacks()
+        self.validation_data = validation_data
         self.train_split = self.config.trainer.train_split
+        self.test_split = self.config.trainer.test_split
 
     def init_callbacks(self):
         self.callbacks.append(
@@ -43,6 +45,8 @@ class FineTunedTrainer(BaseTrain):
             epochs=self.config.trainer.num_epochs,
             steps_per_epoch=get_number_of_items(self.train_split),
             verbose=self.config.trainer.verbose_training,
+            validation_data=self.validation_data,
+            validation_steps=get_number_of_items(self.test_split),
             callbacks=self.callbacks
         )
 
