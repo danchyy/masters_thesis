@@ -48,7 +48,6 @@ for class_name in os.listdir(source_dir):
                      os.path.join(target_dir, "train", class_name, video_name + "frame_" + str(frame_in_middle)
                                   + ".jpg"))
         elif train_test_dict[video_name] == "TEST":
-            if train_test_dict[video_name] == "TRAIN":
-                copyfile(frame_path,
-                         os.path.join(target_dir, "validation", class_name, video_name + "_frame_" + str(frame_in_middle)
-                                      + ".jpg"))
+            copyfile(frame_path,
+                     os.path.join(target_dir, "validation", class_name, video_name + "_frame_" + str(frame_in_middle)
+                                  + ".jpg"))
