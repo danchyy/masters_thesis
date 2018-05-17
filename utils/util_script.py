@@ -1,6 +1,6 @@
 import argparse
 import os
-import constants
+from utils import constants
 
 
 def get_args():
