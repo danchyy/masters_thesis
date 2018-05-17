@@ -2,3 +2,4 @@
 tasks.txt
 data/
 *.pyc
+experiments/
