@@ -2,6 +2,7 @@ from base.base_data_loader import BaseDataLoader
 from utils import constants
 from utils.util_script import get_ucf_101_dict
 import os
+from collections import OrderedDict
 from typing import List, Tuple
 from keras.preprocessing import image
 import numpy as np
@@ -35,19 +36,22 @@ class Ucf101DataLoader(BaseDataLoader):
 
         :return: Train frame names, Train Labels, Test frame names, test labels
         """
-        train_frames = []
-        test_frames = []
-        train_labels, test_labels = [], []
+        train_frames = dict()
+        test_frames = dict()
+        train_labels, test_labels = dict(), dict()
         for row in self.train_lines:
             class_name, file_name, label = self.parse_train_split_row(row)
-            train_frames.append(self.load_frames_list(class_name, file_name))
-            train_labels.append(label)
+            final_name = class_name + "_" + file_name
+            train_frames[final_name] = self.load_frames_list(class_name, file_name)
+            # train_frames.append(self.load_frames_list(class_name, file_name))
+            train_labels[final_name] = label
 
         label_dict = get_ucf_101_dict()
         for row in self.test_lines:
             class_name, file_name = self.parse_test_split_row(row)
-            test_frames.append(self.load_frames_list(class_name, file_name))
-            test_labels.append(label_dict[class_name])
+            final_name = class_name + "_" + file_name
+            test_frames[final_name] = self.load_frames_list(class_name, file_name)
+            test_labels[final_name] = label_dict[class_name]
 
         return train_frames, train_labels, test_frames, test_labels
 
@@ -55,12 +59,17 @@ class Ucf101DataLoader(BaseDataLoader):
         frames_full_path = os.path.join(self.frames_dir, class_name, file_name)
         frame_names = os.listdir(frames_full_path)
         frames = []
+        frame_ordered_dict = dict()
         for frame_name in frame_names:
+            index = int(frame_name.split("_")[1].split(".")[0])
             frame_path = os.path.join(frames_full_path, frame_name)
-            frames.append(frame_path)
-        video_length = len(frames)
+            frame_ordered_dict[index] = frame_path
+        video_length = len(frame_ordered_dict)
         get_every_n = video_length // self.sequence_length
-        return frames[0::get_every_n][:self.sequence_length]
+        for key in sorted(frame_ordered_dict):
+            frames.append(frame_ordered_dict[key])
+        shortened_list = frames[0::get_every_n][:self.sequence_length]
+        return shortened_list
 
     def get_train_data(self):
         pass
