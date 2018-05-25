@@ -16,7 +16,7 @@ UCF_101_NUMPY_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101_numpy")
 
 UCF_101_FEATURE_VECTORS = os.path.join(ROOT_FOLDER, "data", "UCF_101_feature_vectors")
 
-RESNET_DIMS = (224, 224)
+IMAGE_DIMS = (299, 299)
 
 UCF_101_LSTM_DATA = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM")
 

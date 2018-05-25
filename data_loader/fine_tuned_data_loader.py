@@ -21,13 +21,15 @@ class FineTunedDataLoader(BaseDataLoader):
     def get_train_data(self):
         return self.train_datagen.flow_from_directory(
             self.train_dir,
-            target_size=constants.RESNET_DIMS,
+            target_size=constants.IMAGE_DIMS,
             batch_size=self.config.trainer.batch_size,
+            shuffle=True,
             class_mode='categorical')
 
     def get_test_data(self):
         return self.test_datagen.flow_from_directory(
             self.test_dir,
-            target_size=constants.RESNET_DIMS,
+            target_size=constants.IMAGE_DIMS,
             batch_size=self.config.trainer.batch_size,
+            shuffle=True,
             class_mode='categorical')
