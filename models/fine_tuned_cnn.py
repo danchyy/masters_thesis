@@ -20,8 +20,6 @@ class FineTunedCNN(BaseModel):
         self.model.add(pretrained_model)
         self.model.add(Flatten())
         self.model.add(Dense(512, activation="relu"))
-        self.model.add(Dense(256, activation="relu"))
-        self.model.add(Dense(512, activation="relu"))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(get_number_of_classes(), activation='softmax'))
         optimizer = optimizers.get(self.config.model.optimizer)
