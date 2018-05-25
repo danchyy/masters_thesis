@@ -39,7 +39,6 @@ class FineTunedTrainer(BaseTrain):
             ))
 
     def train(self):
-        assert isinstance(self.model, Sequential)
         steps_per_epoch = get_number_of_items(self.train_split) // self.config.trainer.batch_size
         validation_steps = get_number_of_items(self.test_split) // self.config.trainer.batch_size
         history = self.model.fit_generator(

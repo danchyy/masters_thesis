@@ -7,7 +7,7 @@
     "optimizer": "adam"
   },
   "trainer":{
-    "num_epochs": 10,
+    "num_epochs": 20,
     "batch_size": 64,
     "verbose_training": true,
     "train_split": "cleaned_train01.txt",
