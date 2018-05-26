@@ -1,5 +1,6 @@
 import os
 from keras.preprocessing import image
+from keras.applications.inception_v3 import InceptionV3
 from keras.applications.resnet50 import ResNet50
 from keras.applications.resnet50 import preprocess_input
 from data_loader.ucf_101_data_loader import Ucf101DataLoader
@@ -15,11 +16,11 @@ test_target = os.path.join(constants.UCF_101_LSTM_DATA, "test")
 
 data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split)
 
-train_frame_dict, train_labels, test_frame_dict, test_labels = data_loader.retrieve_frames_list_for_splits()
+# train_frame_dict, train_labels, test_frame_dict, test_labels = data_loader.retrieve_frames_list_for_splits()
 
 # initializing model
-model = ResNet50(weights='imagenet', include_top=False, input_shape=(constants.RESNET_DIMS[0], constants.RESNET_DIMS[1],
-                                                                     3))
+model = InceptionV3(weights='imagenet', include_top=False, input_shape=(constants.IMAGE_DIMS[0], constants.IMAGE_DIMS[1]
+                                                                        , 3))
 
 log_train = "log_train.txt"
 if os.path.exists(log_train):
@@ -35,20 +36,21 @@ if os.path.exists(log_test):
 else:
     visited_test = []
 
-print("Length of train frame list: " + str(len(train_frame_dict)))
-total_length = len(train_frame_dict)
+train_split_lines = open(train_split).readlines()
+total_length = len(train_split_lines)
+print("Length of train frame list: " + str(total_length))
 index = 0
 
-for curr_video_key in train_frame_dict:
+for curr_video_key, curr_video, label in data_loader.retrieve_train_data_gen():
     index += 1
     if index % 10 == 0:
         print("Progress: %d / %d" % (index, total_length))
     if curr_video_key + "\n" in visited:
         continue
-    curr_video = train_frame_dict[curr_video_key]
     features = []
-    for frame_path in curr_video:
-        img = image.load_img(frame_path, target_size=constants.RESNET_DIMS)
+    for frame in curr_video:
+        # img = image.load_img(frame_path, target_size=constants.IMAGE_DIMS)
+        img = frame
         img_data = image.img_to_array(img)
         img_data = np.expand_dims(img_data, axis=0)
         img_data = preprocess_input(img_data)
@@ -61,7 +63,6 @@ for curr_video_key in train_frame_dict:
     dest_features_path = os.path.join(train_target, curr_video_key + ".npy")
     np.save(dest_features_path, features)
 
-    label = train_labels[curr_video_key]
     label_data = dict()
     label_data["class"] = label.strip()
     label_data["features_path"] = dest_features_path
@@ -72,21 +73,21 @@ for curr_video_key in train_frame_dict:
     visited.append(curr_video_key + "\n")
     open(log_train, "w").writelines(visited)
 
-
-print("Length of train frame list: " + str(len(test_frame_dict)))
-total_length_test = len(test_frame_dict)
+test_split_lines = open(test_split).readlines()
+total_length_test = len(test_split_lines)
+print("Length of train frame list: " + str(total_length_test))
 index = 0
 
-for curr_video_key in test_frame_dict:
+for curr_video_key, curr_video, label in data_loader.retrieve_test_data_gen():
     index += 1
     if index % 10 == 0:
         print("Progress: %d / %d" % (index, total_length))
     if curr_video_key + "\n" in visited_test:
         continue
-    curr_video = test_frame_dict[curr_video_key]
     features = []
-    for frame_path in curr_video:
-        img = image.load_img(frame_path, target_size=constants.RESNET_DIMS)
+    for frame in curr_video:
+        # img = image.load_img(frame_path, target_size=constants.IMAGE_DIMS)
+        img = frame
         img_data = image.img_to_array(img)
         img_data = np.expand_dims(img_data, axis=0)
         img_data = preprocess_input(img_data)
@@ -99,9 +100,8 @@ for curr_video_key in test_frame_dict:
     dest_features_path = os.path.join(test_target, curr_video_key + ".npy")
     np.save(dest_features_path, features)
 
-    label = test_labels[curr_video_key]
     label_data = dict()
-    label_data["class"] = label.strip()
+    label_data["class"] = label
     label_data["features_path"] = dest_features_path
     dest_label_path = os.path.join(test_target, curr_video_key + ".label.json")
     with open(dest_label_path, 'w') as outfile:

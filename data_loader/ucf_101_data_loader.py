@@ -4,7 +4,6 @@ from utils.util_script import get_ucf_101_dict
 import os
 from collections import OrderedDict
 from typing import List, Tuple
-from keras.preprocessing import image
 import numpy as np
 import cv2
 
@@ -18,17 +17,40 @@ class Ucf101DataLoader(BaseDataLoader):
         self.sequence_length = sequence_length
         self.train_lines = open(train_split).readlines()
         self.test_lines = open(test_split).readlines()
-        self.resnet_dims = constants.RESNET_DIMS
+        self.resnet_dims = constants.IMAGE_DIMS
 
     def parse_train_split_row(self, train_row):
         label = train_row.split(" ")[1]
         name_only = train_row.split(" ")[0]
-        class_name, file_name = name_only.split("/")[0], name_only.split("/")[1].split(".")[0]
+        # class_name, file_name = name_only.split("/")[0], name_only.split("/")[1].split(".")[0]
+        class_name, file_name = name_only.split("/")[0], name_only.split("/")[1]  # version for video
         return class_name, file_name, label
 
     def parse_test_split_row(self, test_row):
-        class_name, file_name = test_row.split("/")[0], test_row.split("/")[1].split(".")[0]
+        # class_name, file_name = test_row.split("/")[0], test_row.split("/")[1].split(".")[0]
+        class_name, file_name = test_row.split("/")[0], test_row.split("/")[1].strip()  # version for video
         return class_name, file_name
+
+    def retrieve_train_data_gen(self):
+        """
+        Creates generator for train data
+        :return: Name of file, list of frames, label
+        """
+        for row in self.train_lines:
+            class_name, file_name, label = self.parse_train_split_row(row)
+            final_name = class_name + "_" + file_name
+            yield final_name, self.load_frames_from_video(class_name, file_name), label
+
+    def retrieve_test_data_gen(self):
+        """
+        Creates generator for test data
+        :return: Name of file, list of frames, label
+        """
+        label_dict = get_ucf_101_dict()
+        for row in self.test_lines:
+            class_name, file_name = self.parse_test_split_row(row)
+            final_name = class_name + "_" + file_name
+            yield final_name, self.load_frames_from_video(class_name, file_name), label_dict[class_name]
 
     def retrieve_frames_list_for_splits(self):
         """
@@ -39,21 +61,53 @@ class Ucf101DataLoader(BaseDataLoader):
         train_frames = dict()
         test_frames = dict()
         train_labels, test_labels = dict(), dict()
+        counter = 0
         for row in self.train_lines:
             class_name, file_name, label = self.parse_train_split_row(row)
             final_name = class_name + "_" + file_name
-            train_frames[final_name] = self.load_frames_list(class_name, file_name)
+            train_frames[final_name] = self.load_frames_from_video(class_name, file_name)
             # train_frames.append(self.load_frames_list(class_name, file_name))
             train_labels[final_name] = label
 
         label_dict = get_ucf_101_dict()
+        counter = 0
         for row in self.test_lines:
             class_name, file_name = self.parse_test_split_row(row)
             final_name = class_name + "_" + file_name
-            test_frames[final_name] = self.load_frames_list(class_name, file_name)
+            test_frames[final_name] = self.load_frames_from_video(class_name, file_name)
             test_labels[final_name] = label_dict[class_name]
 
+            counter += 1
+            if counter == 10:
+                break
+
         return train_frames, train_labels, test_frames, test_labels
+
+    def load_frames_from_video(self, class_name, file_name):
+        full_path = os.path.join(constants.UCF_101_DATA_DIR, class_name, file_name)
+        cap = cv2.VideoCapture(full_path)
+        length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        frames = []
+        get_every_n = round(length / self.sequence_length, 2)
+        success, image = cap.read()
+        count = 0.0
+        frame_count = 0
+        start = True
+        success = True
+        while success:
+            if start:
+                image = cv2.resize(image, constants.IMAGE_DIMS)
+                frames.append(image)
+                start = False
+            elif count > get_every_n:
+                count = count - get_every_n
+                image = cv2.resize(image, constants.IMAGE_DIMS)
+                frames.append(image)
+            success, image = cap.read()
+            # print('Read a new frame: ', success)
+            count += 1.0
+            frame_count += 1
+        return frames[:self.sequence_length]
 
     def load_frames_list(self, class_name, file_name):
         frames_full_path = os.path.join(self.frames_dir, class_name, file_name)
