@@ -1,6 +1,6 @@
 {
   "exp": {
-    "name": "fine_tune"
+    "name": "fine_tune_inception_512_256"
   },
   "model":{
     "learning_rate": 0.001,
