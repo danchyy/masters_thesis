@@ -21,9 +21,7 @@ class FineTunedCNN(BaseModel):
             layer.trainable = False
         x = pretrained_model.output
         x = GlobalAveragePooling2D()(x)
-        x = Dense(512, activation="relu")(x)
-        x = Dropout(0.5)(x)
-        x = Dense(256, activation="relu")(x)
+        x = Dense(1024, activation="relu")(x)
         x = Dropout(0.5)(x)
         predictions = Dense(get_number_of_classes(), activation="softmax")(x)
         self.model = Model(inputs=pretrained_model.input, outputs=predictions)
