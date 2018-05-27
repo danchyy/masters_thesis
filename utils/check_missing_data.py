@@ -1,5 +1,5 @@
 import os
-from utils import constants
+import constants
 
 train_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "cleaned_train01.txt")
 test_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "cleaned_test01.txt")
