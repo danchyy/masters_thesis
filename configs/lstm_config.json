@@ -9,7 +9,9 @@
   "trainer":{
     "num_epochs": 20,
     "batch_size": 32,
-    "verbose_training": true
+    "verbose_training": true,
+    "train_split": "cleaned_train01.txt",
+    "test_split": "cleaned_test01.txt"
   },
   "callbacks":{
     "checkpoint_monitor": "val_acc",
