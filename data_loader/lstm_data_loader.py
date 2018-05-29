@@ -12,7 +12,7 @@ class LSTMDataLoader(BaseDataLoader):
         self.test_dir = os.path.join(constants.UCF_101_LSTM_DATA, "test")
 
     def get_train_data(self):
-        return LSTMDataGenerator(self.batch_size, self.train_dir)
+        return LSTMDataGenerator(self.batch_size, self.train_dir, self.config.exp.num_of_classes)
 
     def get_test_data(self):
-        return LSTMDataGenerator(self.batch_size, self.test_dir)
+        return LSTMDataGenerator(self.batch_size, self.test_dir, self.config.exp.num_of_classes)
