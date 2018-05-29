@@ -22,5 +22,8 @@ UCF_101_LSTM_DATA = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM")
 
 FINE_TUNED_CONFIG = os.path.join(ROOT_FOLDER, "configs", "fine_tune_config.json")
 
+LSTM_CONFIG = os.path.join(ROOT_FOLDER, "configs", "lstm_config.json")
+
 LSTM_SEQUENCE_LENGTH = 40
+
 LSTM_FEATURE_SIZE = 2048

@@ -15,7 +15,7 @@ class LSTMModel(BaseModel):
     def build_model(self):
         self.model = Sequential()
         self.model.add(LSTM(512, input_shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE),
-                            dropout=0.5))
+                            dropout=0.5, return_sequences=True))
         self.model.add(LSTM(512, dropout=0.5))
         self.model.add(Dense(256, activation="relu"))
         self.model.add(Dropout(0.5))
