@@ -4,3 +4,6 @@ data/
 *.pyc
 experiments/
 plotter/
+utils/log_train.txt
+utils/log_test.txt
+
