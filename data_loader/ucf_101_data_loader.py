@@ -15,7 +15,8 @@ class Ucf101DataLoader(BaseDataLoader):
         self.frames_dir = constants.UCF_101_FRAMES_DIR
         self.max_frames = max_frames
         self.sequence_length = sequence_length
-        self.train_lines = open(train_split).readlines()
+        # self.train_lines = open(train_split).readlines()
+        self.train_lines = ["Basketball/v_Basketball_g16_c03.avi 1"]
         self.test_lines = open(test_split).readlines()
         self.resnet_dims = constants.IMAGE_DIMS
 
@@ -83,17 +84,28 @@ class Ucf101DataLoader(BaseDataLoader):
 
         return train_frames, train_labels, test_frames, test_labels
 
+    def get_length_of_video(self, capture):
+        count = 0
+        while (True):
+            # Capture frame-by-frame
+            ret, frame = capture.read()
+            if not ret:
+                break
+
+            count += 1
+        return count
+
     def load_frames_from_video(self, class_name, file_name):
         full_path = os.path.join(constants.UCF_101_DATA_DIR, class_name, file_name)
         cap = cv2.VideoCapture(full_path)
-        length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        length = self.get_length_of_video(capture=cap)
+        cap = cv2.VideoCapture(full_path)
         frames = []
         success, image = cap.read()
-        count = 0.0
+        count = 0
         success = True
 
         indices_for_sequence = [int(a) for a in np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)]
-
         while success:
 
             if count in indices_for_sequence:
@@ -101,9 +113,9 @@ class Ucf101DataLoader(BaseDataLoader):
                 frames.append(image)
             success, image = cap.read()
             # print('Read a new frame: ', success)
-            count += 1.0
+            count += 1
 
-        return frames[:self.sequence_length]
+        frames = frames[:self.sequence_length]
 
     def load_frames_list(self, class_name, file_name):
         frames_full_path = os.path.join(self.frames_dir, class_name, file_name)
