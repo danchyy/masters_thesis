@@ -99,6 +99,9 @@ def extract_features():
 
             feature_vector = model.predict(img_data)
             feature_vector = np.array(feature_vector[0][0][0])
+            if feature_vector.shape != (40, 2048):
+                with open("WRONG_SHAPES.txt", "a") as out_file:
+                    out_file.write(curr_video_key + "\n")
             features.append(feature_vector)
 
         features = np.array(features)
