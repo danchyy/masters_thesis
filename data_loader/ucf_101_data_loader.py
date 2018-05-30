@@ -15,8 +15,7 @@ class Ucf101DataLoader(BaseDataLoader):
         self.frames_dir = constants.UCF_101_FRAMES_DIR
         self.max_frames = max_frames
         self.sequence_length = sequence_length
-        # self.train_lines = open(train_split).readlines()
-        self.train_lines = ["Basketball/v_Basketball_g16_c03.avi 1"]
+        self.train_lines = open(train_split).readlines()
         self.test_lines = open(test_split).readlines()
         self.resnet_dims = constants.IMAGE_DIMS
 
@@ -116,6 +115,7 @@ class Ucf101DataLoader(BaseDataLoader):
             count += 1
 
         frames = frames[:self.sequence_length]
+        return frames
 
     def load_frames_list(self, class_name, file_name):
         frames_full_path = os.path.join(self.frames_dir, class_name, file_name)
