@@ -41,6 +41,7 @@ def extract_features():
     total_length = len(train_split_lines)
     print("Length of train frame list: " + str(total_length))
     index = 0
+    invalid_shapes = []
 
     for curr_video_key, curr_video, label in data_loader.retrieve_train_data_gen():
         index += 1
@@ -58,6 +59,9 @@ def extract_features():
 
             feature_vector = model.predict(img_data)
             feature_vector = np.array(feature_vector[0][0][0])
+            if feature_vector.shape != (40, 2048):
+                with open("WRONG_SHAPES.txt", "a") as out_file:
+                    out_file.write(curr_video_key + "\n")
             features.append(feature_vector)
 
         features = np.array(features)

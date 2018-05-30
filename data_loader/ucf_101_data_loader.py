@@ -88,25 +88,20 @@ class Ucf101DataLoader(BaseDataLoader):
         cap = cv2.VideoCapture(full_path)
         length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         frames = []
-        get_every_n = round(length / self.sequence_length, 2)
         success, image = cap.read()
         count = 0.0
-        frame_count = 0
-        start = True
         success = True
+
+        indices_for_sequence = np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)
+
         while success:
-            if start:
-                image = cv2.resize(image, constants.IMAGE_DIMS)
-                frames.append(image)
-                start = False
-            elif count > get_every_n:
-                count = count - get_every_n
-                image = cv2.resize(image, constants.IMAGE_DIMS)
+
+            if count in indices_for_sequence:
                 frames.append(image)
             success, image = cap.read()
             # print('Read a new frame: ', success)
             count += 1.0
-            frame_count += 1
+
         return frames[:self.sequence_length]
 
     def load_frames_list(self, class_name, file_name):
