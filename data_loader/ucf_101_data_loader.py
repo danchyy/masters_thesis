@@ -92,11 +92,12 @@ class Ucf101DataLoader(BaseDataLoader):
         count = 0.0
         success = True
 
-        indices_for_sequence = np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)
+        indices_for_sequence = [int(a) for a in np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)]
 
         while success:
 
             if count in indices_for_sequence:
+                image = cv2.resize(image, constants.IMAGE_DIMS)
                 frames.append(image)
             success, image = cap.read()
             # print('Read a new frame: ', success)
