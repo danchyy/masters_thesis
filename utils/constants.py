@@ -6,6 +6,8 @@ UCF_101_DATA_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101")
 
 UCF_101_CNN_DATA_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101_cnn_data")
 
+UCF_101_CNN_DATA_DIR_TRAINLIST01 = os.path.join(ROOT_FOLDER, "data", "UCF_101_cnn_data_trainlist01")
+
 UCF_101_FRAMES_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101_frames")
 
 UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101_TrainTestlist")

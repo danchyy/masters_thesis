@@ -16,12 +16,12 @@ def create_train_test_dict(train_split_lines, test_split_lines):
     return train_test_dict
 
 
-target_dir = constants.UCF_101_CNN_DATA_DIR
+target_dir = constants.UCF_101_CNN_DATA_DIR_TRAINLIST01
 source_dir = constants.UCF_101_FRAMES_DIR
 
-train_split = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "cleaned_train01.txt"), "r").readlines()
+train_split = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "train01.txt"), "r").readlines()
 
-test_split = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "cleaned_test01.txt"), "r").readlines()
+test_split = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "validation01.txt"), "r").readlines()
 
 train_test_dict = create_train_test_dict(train_split, test_split)
 
@@ -38,11 +38,11 @@ for class_name in os.listdir(source_dir):
     for video_name in video_names:
         if video_name.startswith("."):
             continue
+        if video_name not in train_test_dict:
+            continue
         video_name_path = os.path.join(class_path, video_name)
         frame_in_middle = len(os.listdir(video_name_path)) // 2
         frame_path = os.path.join(video_name_path, "frame_" + str(frame_in_middle) + ".jpg")
-        if video_name not in train_test_dict:
-            continue
         if train_test_dict[video_name] == "TRAIN":
             copyfile(frame_path,
                      os.path.join(target_dir, "train", class_name, video_name + "frame_" + str(frame_in_middle)
