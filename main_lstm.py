@@ -6,17 +6,18 @@ from utils.dirs import create_dirs
 from utils import constants
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
+import argparse
 
 
-def main():
+def main(memory_frac, experiment_name):
 
-    config = tf.ConfigProto()
-    config.gpu_options.per_process_gpu_memory_fraction = 0.3
-    set_session(tf.Session(config=config))
+    tf_config = tf.ConfigProto()
+    tf_config.gpu_options.per_process_gpu_memory_fraction = memory_frac
+    set_session(tf.Session(config=tf_config))
 
     config_path = constants.LSTM_CONFIG
     # process the json configuration file
-    config = process_config(config_path)
+    config = process_config(config_path, experiment_name)
 
     # create the experiments dirs
     create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir])
@@ -35,4 +36,11 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Parser for training of net')
+    parser.add_argument('--memory_frac', dest='memory_frac', type=float,
+                        help='Fractiong of gpu which will be used for training', required=True)
+    parser.add_argument('--experiment_name', dest='experiment_name',
+                        help='Name of experiment', required=True)
+
+    args = parser.parse_args()
+    main(args.memory_frac, args.experiment_name)

@@ -22,7 +22,7 @@ class BaseTrain(object):
                 save_best_only=self.config.callbacks.checkpoint_save_best_only,
                 save_weights_only=self.config.callbacks.checkpoint_save_weights_only,
                 verbose=self.config.callbacks.checkpoint_verbose,
-                period=10
+                period=5
             )
         )
 
