@@ -1,6 +1,6 @@
 {
   "exp": {
-    "name": "lstm_3_dense",
+    "name": "lstm_1024_dense",
     "num_of_classes": 101
   },
   "model":{
@@ -8,7 +8,7 @@
     "optimizer": "rmsprop"
   },
   "trainer":{
-    "num_epochs": 200,
+    "num_epochs": 400,
     "batch_size": 32,
     "verbose_training": true,
     "train_split": "cleaned_train01.txt",

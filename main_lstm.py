@@ -4,9 +4,16 @@ from trainers.lstm_trainer import LSTMTrainer
 from utils.config import process_config
 from utils.dirs import create_dirs
 from utils import constants
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
 
 
 def main():
+
+    config = tf.ConfigProto()
+    config.gpu_options.per_process_gpu_memory_fraction = 0.3
+    set_session(tf.Session(config=config))
+
     config_path = constants.LSTM_CONFIG
     # process the json configuration file
     config = process_config(config_path)
