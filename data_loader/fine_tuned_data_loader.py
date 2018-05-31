@@ -15,8 +15,8 @@ class FineTunedDataLoader(BaseDataLoader):
                                                 zoom_range=0.2,
                                                 fill_mode='nearest')
         self.test_datagen = ImageDataGenerator(rescale=1. / 255.)
-        self.train_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR, "train")
-        self.test_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR, "validation")
+        self.train_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR_TRAINLIST01, "train")
+        self.test_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR_TRAINLIST01, "validation")
 
     def get_train_data(self):
         return self.train_datagen.flow_from_directory(
