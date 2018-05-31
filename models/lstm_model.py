@@ -14,15 +14,11 @@ class LSTMModel(BaseModel):
 
     def build_model(self):
         self.model = Sequential()
-        self.model.add(LSTM(512, input_shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE),
-                            return_sequences=True))
-        self.model.add(LSTM(512, return_sequences=True))
-        self.model.add(LSTM(512, return_sequences=True))
-        self.model.add(LSTM(512, return_sequences=True))
-        self.model.add(LSTM(512, return_sequences=False))
+        self.model.add(LSTM(2048, input_shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE),
+                            return_sequences=False, dropout=0.5))
         self.model.add(Dense(1024, activation="relu"))
         self.model.add(Dropout(0.5))
-        self.model.add(Dense(get_number_of_classes(), activation="softmax"))
+        self.model.add(Dense(self.config.exp.num_of_classes, activation="softmax"))
         optimizer = optimizers.get(self.config.model.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
         optimizer.lr = self.config.model.learning_rate
