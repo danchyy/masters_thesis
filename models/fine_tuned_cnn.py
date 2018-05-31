@@ -24,9 +24,9 @@ class FineTunedCNN(BaseModel):
         x = Dense(512, activation="relu")(x)
         x = Dropout(0.5)(x)
         predictions = Dense(get_number_of_classes(), activation="softmax")(x)
-        self.model = Model(inputs=pretrained_model.input, outputs=predictions)
+        """self.model = Model(inputs=pretrained_model.input, outputs=predictions)
         optimizer = optimizers.get(self.config.model.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
-        optimizer.lr = self.config.model.learning_rate
-        self.model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
+        optimizer.lr = self.config.model.learning_rate"""
+        self.model.compile(optimizer=self.config.model.optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
         return self.model

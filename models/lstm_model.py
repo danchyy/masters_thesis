@@ -19,10 +19,10 @@ class LSTMModel(BaseModel):
         self.model.add(Dense(128, activation="relu"))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(self.config.exp.num_of_classes, activation="softmax"))
-        optimizer = optimizers.get(self.config.model.optimizer)
+        """optimizer = optimizers.get(self.config.model.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
         optimizer.lr = self.config.model.learning_rate
         if self.config.model.optimizer in ["adam", "rmsprop"]:
-            optimizer.decay = self.config.model.decay
-        self.model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
+            optimizer.decay = self.config.model.decay"""
+        self.model.compile(optimizer=self.config.model.optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
         return self.model
