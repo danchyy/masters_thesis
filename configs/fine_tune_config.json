@@ -1,13 +1,14 @@
 {
   "exp": {
-    "name": "fine_tune_inception_1024"
+    "name": "fine_tune_inception_512",
+    "num_of_classes": 101
   },
   "model":{
     "learning_rate": 0.001,
     "optimizer": "adam"
   },
   "trainer":{
-    "num_epochs": 20,
+    "num_epochs": 60,
     "batch_size": 32,
     "verbose_training": true,
     "train_split": "cleaned_train01.txt",
