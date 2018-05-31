@@ -9,7 +9,7 @@ from keras.backend.tensorflow_backend import set_session
 import argparse
 
 
-def main(memory_frac, experiment_name):
+def main(memory_frac):
 
     tf_config = tf.ConfigProto()
     tf_config.gpu_options.per_process_gpu_memory_fraction = memory_frac
@@ -17,7 +17,7 @@ def main(memory_frac, experiment_name):
 
     config_path = constants.LSTM_CONFIG
     # process the json configuration file
-    config = process_config(config_path, experiment_name)
+    config = process_config(config_path)
 
     # create the experiments dirs
     create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir])
@@ -39,8 +39,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parser for training of net')
     parser.add_argument('--memory_frac', dest='memory_frac', type=float,
                         help='Fractiong of gpu which will be used for training', required=True)
-    parser.add_argument('--experiment_name', dest='experiment_name',
-                        help='Name of experiment', required=True)
 
     args = parser.parse_args()
-    main(args.memory_frac, args.experiment_name)
+    main(args.memory_frac)
