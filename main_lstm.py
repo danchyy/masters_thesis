@@ -5,6 +5,9 @@ from utils.config import process_config
 from utils.dirs import create_dirs
 from utils import constants
 import tensorflow as tf
+from shutil import copyfile
+import os
+import inspect
 from keras.backend.tensorflow_backend import set_session
 import argparse
 
@@ -27,6 +30,8 @@ def main(memory_frac):
 
     print('Create the model.')
     model = LSTMModel(config)
+
+    copyfile(inspect.getfile(model.__class__), os.path.join(config.callbacks.model_dir, "model.py"))
 
     print('Create the trainer')
     trainer = LSTMTrainer(model.build_model(), data_loader, config)

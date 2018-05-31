@@ -5,6 +5,9 @@ from utils.config import process_config
 from utils.dirs import create_dirs
 from utils import constants
 import tensorflow as tf
+from shutil import copyfile
+import os
+import inspect
 from keras.backend.tensorflow_backend import set_session
 import argparse
 
@@ -20,13 +23,15 @@ def main(memory_frac):
     config = process_config(config_path)
 
     # create the experiments dirs
-    create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir])
+    create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir, config.callbacks.model_dir])
 
     print('Create the data generator.')
     data_loader = FineTunedDataLoader(config)
 
     print('Create the model.')
     model = FineTunedCNN(config)
+
+    copyfile(inspect.getfile(model.__class__), os.path.join(config.callbacks.model_dir, "model.py"))
 
     print('Create the trainer')
     trainer = FineTunedTrainer(model.build_model(), data_loader.get_train_data(), config, data_loader.get_test_data())
