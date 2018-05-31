@@ -19,7 +19,7 @@ class LSTMModel(BaseModel):
         self.model.add(LSTM(512, return_sequences=True))
         self.model.add(LSTM(512, return_sequences=True))
         self.model.add(LSTM(512, return_sequences=True))
-        self.model.add(LSTM(512, return_sequences=True))
+        self.model.add(LSTM(512, return_sequences=False))
         self.model.add(Dense(1024, activation="relu"))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(get_number_of_classes(), activation="softmax"))
