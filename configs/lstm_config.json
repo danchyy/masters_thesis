@@ -12,16 +12,17 @@
     "num_epochs": 400,
     "batch_size": 32,
     "verbose_training": true,
-    "train_split": "cleaned_train01.txt",
-    "test_split": "cleaned_test01.txt"
+    "train_split": "train01.txt",
+    "test_split": "validation01.txt"
   },
   "callbacks":{
     "save_every_n": 20,
     "checkpoint_monitor": "val_acc",
     "checkpoint_mode": "max",
-    "checkpoint_save_best_only": false,
-    "checkpoint_save_weights_only": false,
+    "checkpoint_save_best_only": true,
+    "checkpoint_save_weights_only": true,
     "checkpoint_verbose": true,
-    "tensorboard_write_graph": true
+    "tensorboard_write_graph": true,
+    "early_stopping": false
   }
 }
