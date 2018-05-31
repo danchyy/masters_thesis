@@ -23,7 +23,7 @@ def main(memory_frac):
     config = process_config(config_path)
 
     # create the experiments dirs
-    create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir])
+    create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir, config.callbacks.model_dir])
 
     print('Create the data generator.')
     data_loader = LSTMDataLoader(config)
