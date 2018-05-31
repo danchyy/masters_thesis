@@ -9,7 +9,6 @@ class FineTunedTrainer(BaseTrain):
 
     def __init__(self, model, data, config, validation_data):
         super().__init__(model, data, config)
-        self.callbacks = []
         self.loss = []
         self.acc = []
         self.val_loss = []

@@ -7,7 +7,6 @@ class LSTMTrainer(BaseTrain):
 
     def __init__(self, model, data, config):
         super().__init__(model, data, config)
-        self.callbacks = []
         self.loss = []
         self.acc = []
         self.val_loss = []

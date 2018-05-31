@@ -1,6 +1,6 @@
 import os
 
-from keras.callbacks import ModelCheckpoint, TensorBoard
+from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
 
 
 class BaseTrain(object):
@@ -8,6 +8,7 @@ class BaseTrain(object):
         self.model = model
         self.data = data
         self.config = config
+        self.callbacks = []
 
     def train(self):
         raise NotImplementedError
@@ -22,7 +23,7 @@ class BaseTrain(object):
                 save_best_only=self.config.callbacks.checkpoint_save_best_only,
                 save_weights_only=self.config.callbacks.checkpoint_save_weights_only,
                 verbose=self.config.callbacks.checkpoint_verbose,
-                period=5
+                period=self.config.callbacks.save_every_n
             )
         )
 
@@ -32,3 +33,7 @@ class BaseTrain(object):
                 write_graph=self.config.callbacks.tensorboard_write_graph,
             ))
 
+        if self.config.callbacks.early_stopping:
+            self.callbacks.append(
+                EarlyStopping(monitor="val_loss", mode="auto", patience=6)
+            )
