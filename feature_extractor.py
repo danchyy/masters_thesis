@@ -10,10 +10,10 @@ import json
 from time import time
 
 def extract_features():
-    train_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "cleaned_train01.txt")
-    test_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "cleaned_test01.txt")
-    train_target = os.path.join(constants.UCF_101_LSTM_DATA, "train")
-    test_target = os.path.join(constants.UCF_101_LSTM_DATA, "test")
+    train_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "train01.txt")
+    test_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "validation01.txt")
+    train_target = os.path.join(constants.UCF_101_LSTM_DATA_train01, "train")
+    test_target = os.path.join(constants.UCF_101_LSTM_DATA_train01, "test")
 
     data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split)
 
@@ -62,8 +62,7 @@ def extract_features():
             features.append(feature_vector)
 
         features = np.array(features)
-        if features.shape != (40, 2048):
-            print(features.shape)
+        if features.shape != (constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE):
             with open("WRONG_SHAPES.txt", "a") as out_file:
                 out_file.write(curr_video_key + "\n")
         dest_features_path = os.path.join(train_target, curr_video_key + ".npy")
@@ -103,7 +102,7 @@ def extract_features():
             features.append(feature_vector)
 
         features = np.array(features)
-        if features.shape != (40, 2048):
+        if features.shape != (constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE):
             with open("WRONG_SHAPES.txt", "a") as out_file:
                 out_file.write(curr_video_key + "\n")
         dest_features_path = os.path.join(test_target, curr_video_key + ".npy")

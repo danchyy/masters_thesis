@@ -10,11 +10,9 @@ import cv2
 
 class Ucf101DataLoader(BaseDataLoader):
 
-    def __init__(self, config: dict, train_split, test_split, max_frames=450, sequence_length=40):
+    def __init__(self, config: dict, train_split, test_split):
         super().__init__(config)
         self.frames_dir = constants.UCF_101_FRAMES_DIR
-        self.max_frames = max_frames
-        self.sequence_length = sequence_length
         self.train_lines = open(train_split).readlines()
         self.test_lines = open(test_split).readlines()
         self.resnet_dims = constants.IMAGE_DIMS
@@ -94,6 +92,32 @@ class Ucf101DataLoader(BaseDataLoader):
             count += 1
         return count
 
+    def augment_image(self, img, inter=cv2.INTER_AREA):
+        (h, w) = img.shape[:2]
+
+        # check to see if the width is None
+        target_height = constants.IMAGE_DIMS[0]
+        ratio = target_height / h
+        new_width = int(ratio * w)
+        dim = (new_width, target_height)
+
+        # resize the image
+        resized = cv2.resize(img, dim, interpolation=inter)
+
+        random_start = np.random.randint(0, new_width - target_height - 1)
+        random_end = random_start + target_height
+        assert (random_end - random_start) == target_height
+        cropped_img = resized[:, random_start: random_end]
+        assert cropped_img.shape[:2] == constants.IMAGE_DIMS
+        # return the resized image
+
+        """if np.random.rand() < 0.5:
+            cropped_img = cv2.flip(cropped_img, 0)  # horizontal flip
+        if np.random.rand() < 0.5:
+            cropped_img = cv2.flip(cropped_img, 1)  # vertical flip"""
+
+        return cropped_img
+
     def load_frames_from_video(self, class_name, file_name):
         full_path = os.path.join(constants.UCF_101_DATA_DIR, class_name, file_name)
         cap = cv2.VideoCapture(full_path)
@@ -105,16 +129,20 @@ class Ucf101DataLoader(BaseDataLoader):
         success = True
 
         indices_for_sequence = [int(a) for a in np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)]
+        counter = 0
+        while len(indices_for_sequence) < constants.LSTM_SEQUENCE_LENGTH:
+            indices_for_sequence.append(counter)
+            counter += 1
         while success:
 
             if count in indices_for_sequence:
-                image = cv2.resize(image, constants.IMAGE_DIMS)
+                image = self.augment_image(image)
                 frames.append(image)
             success, image = cap.read()
             # print('Read a new frame: ', success)
             count += 1
 
-        frames = frames[:self.sequence_length]
+        frames = frames[:constants.LSTM_SEQUENCE_LENGTH]
         return frames
 
     def load_frames_list(self, class_name, file_name):
@@ -127,10 +155,10 @@ class Ucf101DataLoader(BaseDataLoader):
             frame_path = os.path.join(frames_full_path, frame_name)
             frame_ordered_dict[index] = frame_path
         video_length = len(frame_ordered_dict)
-        get_every_n = video_length // self.sequence_length
+        get_every_n = video_length // constants.LSTM_SEQUENCE_LENGTH
         for key in sorted(frame_ordered_dict):
             frames.append(frame_ordered_dict[key])
-        shortened_list = frames[0::get_every_n][:self.sequence_length]
+        shortened_list = frames[0::get_every_n][:constants.LSTM_SEQUENCE_LENGTH]
         return shortened_list
 
     def get_train_data(self):
