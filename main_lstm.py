@@ -23,7 +23,8 @@ def main(memory_frac):
     config = process_config(config_path)
 
     # create the experiments dirs
-    create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir, config.callbacks.model_dir])
+    create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir, config.callbacks.model_dir,
+                 config.callbacks.config_dir])
 
     print('Create the data generator.')
     data_loader = LSTMDataLoader(config)
@@ -32,6 +33,7 @@ def main(memory_frac):
     model = LSTMModel(config)
 
     copyfile(inspect.getfile(model.__class__), os.path.join(config.callbacks.model_dir, "model.py"))
+    copyfile(config_path, os.path.join(config.callbacks.config_dir, "config.json"))
 
     print('Create the trainer')
     trainer = LSTMTrainer(model.build_model(), data_loader, config)
