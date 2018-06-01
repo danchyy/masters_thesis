@@ -28,6 +28,8 @@ FINE_TUNED_CONFIG = os.path.join(ROOT_FOLDER, "configs", "fine_tune_config.json"
 
 LSTM_CONFIG = os.path.join(ROOT_FOLDER, "configs", "lstm_config.json")
 
+DNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "dnn_config.json")
+
 LSTM_SEQUENCE_LENGTH = 30
 
 LSTM_FEATURE_SIZE = 2048
