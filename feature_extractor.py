@@ -1,23 +1,19 @@
 import os
 from keras.preprocessing import image
-from keras.applications.inception_v3 import InceptionV3
-from keras.applications.resnet50 import ResNet50
-from keras.applications.resnet50 import preprocess_input
+from keras.applications.inception_v3 import InceptionV3, preprocess_input
 from data_loader.ucf_101_data_loader import Ucf101DataLoader
 from utils import constants
 import numpy as np
 import json
-from time import time
 
 def extract_features():
+
     train_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "train01.txt")
     test_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "validation01.txt")
     train_target = os.path.join(constants.UCF_101_LSTM_DATA_train01, "train")
     test_target = os.path.join(constants.UCF_101_LSTM_DATA_train01, "test")
 
     data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split)
-
-    # train_frame_dict, train_labels, test_frame_dict, test_labels = data_loader.retrieve_frames_list_for_splits()
 
     # initializing model
     model = InceptionV3(weights='imagenet', include_top=False, input_shape=(constants.IMAGE_DIMS[0], constants.IMAGE_DIMS[1]
@@ -41,7 +37,6 @@ def extract_features():
     total_length = len(train_split_lines)
     print("Length of train frame list: " + str(total_length))
     index = 0
-    invalid_shapes = []
 
     for curr_video_key, curr_video, label in data_loader.retrieve_train_data_gen():
         index += 1
@@ -86,7 +81,7 @@ def extract_features():
     for curr_video_key, curr_video, label in data_loader.retrieve_test_data_gen():
         index += 1
         if index % 10 == 0:
-            print("Progress: %d / %d" % (index, total_length))
+            print("Progress: %d / %d" % (index, total_length_test))
         if curr_video_key + "\n" in visited_test:
             continue
         features = []

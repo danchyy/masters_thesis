@@ -44,42 +44,10 @@ class Ucf101DataLoader(BaseDataLoader):
         Creates generator for test data
         :return: Name of file, list of frames, label
         """
-        label_dict = get_ucf_101_dict()
         for row in self.test_lines:
-            class_name, file_name = self.parse_test_split_row(row)
-            final_name = class_name + "_" + file_name
-            yield final_name, self.load_frames_from_video(class_name, file_name), label_dict[class_name]
-
-    def retrieve_frames_list_for_splits(self):
-        """
-        Retrieves frame names for all classes and images in train and test data.
-
-        :return: Train frame names, Train Labels, Test frame names, test labels
-        """
-        train_frames = dict()
-        test_frames = dict()
-        train_labels, test_labels = dict(), dict()
-        counter = 0
-        for row in self.train_lines:
             class_name, file_name, label = self.parse_train_split_row(row)
             final_name = class_name + "_" + file_name
-            train_frames[final_name] = self.load_frames_from_video(class_name, file_name)
-            # train_frames.append(self.load_frames_list(class_name, file_name))
-            train_labels[final_name] = label
-
-        label_dict = get_ucf_101_dict()
-        counter = 0
-        for row in self.test_lines:
-            class_name, file_name = self.parse_test_split_row(row)
-            final_name = class_name + "_" + file_name
-            test_frames[final_name] = self.load_frames_from_video(class_name, file_name)
-            test_labels[final_name] = label_dict[class_name]
-
-            counter += 1
-            if counter == 10:
-                break
-
-        return train_frames, train_labels, test_frames, test_labels
+            yield final_name, self.load_frames_from_video(class_name, file_name), label
 
     def get_length_of_video(self, capture):
         count = 0
@@ -129,10 +97,6 @@ class Ucf101DataLoader(BaseDataLoader):
         success = True
 
         indices_for_sequence = [int(a) for a in np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)]
-        counter = 0
-        while len(indices_for_sequence) < constants.LSTM_SEQUENCE_LENGTH:
-            indices_for_sequence.append(counter)
-            counter += 1
         while success:
 
             if count in indices_for_sequence:
@@ -141,25 +105,13 @@ class Ucf101DataLoader(BaseDataLoader):
             success, image = cap.read()
             # print('Read a new frame: ', success)
             count += 1
-
+        cap = cv2.VideoCapture(full_path)
+        while len(frames) < constants.LSTM_SEQUENCE_LENGTH:
+            success, image = cap.read()
+            image = self.augment_image(image)
+            frames.append(image)
         frames = frames[:constants.LSTM_SEQUENCE_LENGTH]
         return frames
-
-    def load_frames_list(self, class_name, file_name):
-        frames_full_path = os.path.join(self.frames_dir, class_name, file_name)
-        frame_names = os.listdir(frames_full_path)
-        frames = []
-        frame_ordered_dict = dict()
-        for frame_name in frame_names:
-            index = int(frame_name.split("_")[1].split(".")[0])
-            frame_path = os.path.join(frames_full_path, frame_name)
-            frame_ordered_dict[index] = frame_path
-        video_length = len(frame_ordered_dict)
-        get_every_n = video_length // constants.LSTM_SEQUENCE_LENGTH
-        for key in sorted(frame_ordered_dict):
-            frames.append(frame_ordered_dict[key])
-        shortened_list = frames[0::get_every_n][:constants.LSTM_SEQUENCE_LENGTH]
-        return shortened_list
 
     def get_train_data(self):
         pass
