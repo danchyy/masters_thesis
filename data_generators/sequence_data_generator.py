@@ -6,7 +6,7 @@ from random import shuffle
 from keras.utils import to_categorical
 
 
-class LSTMDataGenerator(Sequence):
+class SequenceDataGenerator(Sequence):
 
     def __init__(self, batch_size, data_dir, num_of_classes):
         self.batch_size = batch_size

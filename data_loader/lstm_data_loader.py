@@ -1,7 +1,7 @@
 from base.base_data_loader import BaseDataLoader
 from utils import constants
 import os
-from data_generators.lstm_data_generator import LSTMDataGenerator
+from data_generators.sequence_data_generator import SequenceDataGenerator
 
 class LSTMDataLoader(BaseDataLoader):
 
@@ -12,7 +12,7 @@ class LSTMDataLoader(BaseDataLoader):
         self.test_dir = os.path.join(constants.UCF_101_LSTM_DATA, "test")
 
     def get_train_data(self):
-        return LSTMDataGenerator(self.batch_size, self.train_dir, self.config.exp.num_of_classes)
+        return SequenceDataGenerator(self.batch_size, self.train_dir, self.config.exp.num_of_classes)
 
     def get_test_data(self):
-        return LSTMDataGenerator(self.batch_size, self.test_dir, self.config.exp.num_of_classes)
+        return SequenceDataGenerator(self.batch_size, self.test_dir, self.config.exp.num_of_classes)
