@@ -10,8 +10,8 @@ def extract_features():
 
     train_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "train01.txt")
     test_split = os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "validation01.txt")
-    train_target = os.path.join(constants.UCF_101_LSTM_DATA_train01, "train")
-    test_target = os.path.join(constants.UCF_101_LSTM_DATA_train01, "test")
+    train_target = os.path.join(constants.UCF_101_LSTM_DATA, "train")
+    test_target = os.path.join(constants.UCF_101_LSTM_DATA, "test")
 
     data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split)
 
