@@ -1,8 +1,9 @@
 from base.base_model import BaseModel
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
-from keras import optimizers
+from keras import optimizers, Input
 from utils import constants
+from keras.models import Model
 
 
 class DNNModel(BaseModel):
@@ -11,15 +12,16 @@ class DNNModel(BaseModel):
         super().__init__(config)
 
     def build_model(self):
-        self.model = Sequential()
-        self.model.add(Flatten(input_shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE)))
-        self.model.add(Dense(512, activation="relu"))
-        self.model.add(Dropout(0.5))
-        self.model.add(Dense(384, activation="relu"))
-        self.model.add(Dropout(0.5))
-        self.model.add(Dense(256, activation="relu"))
-        self.model.add(Dropout(0.5))
-        self.model.add(Dense(self.config.exp.num_of_classes, activation="softmax"))
+        input = Input(shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE))
+        x = Flatten()(input)
+        x = Dense(1024, activation="relu")(x)
+        x = Dropout(0.5)(x)
+        x = Dense(1024, activation="relu")(x)
+        x = Dropout(0.5)(x)
+        x = Dense(1024, activation="relu")(x)
+        x = Dropout(0.5)(x)
+        predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
+        self.model = Model(inputs=input, outputs=predictions)
         optimizer = optimizers.get(self.config.model.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
         optimizer.lr = self.config.model.learning_rate
