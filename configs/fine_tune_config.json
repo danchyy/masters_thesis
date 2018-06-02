@@ -8,20 +8,20 @@
     "optimizer": "adam"
   },
   "trainer":{
-    "num_epochs": 60,
-    "batch_size": 64,
+    "num_epochs": 30,
+    "batch_size": 32,
     "verbose_training": true,
     "train_split": "cleaned_train01.txt",
     "test_split": "cleaned_test01.txt"
   },
   "callbacks":{
-    "save_every_n": 5,
+    "save_every_n": 1,
     "checkpoint_monitor": "val_acc",
     "checkpoint_mode": "max",
     "checkpoint_save_best_only": true,
     "checkpoint_save_weights_only": true,
     "checkpoint_verbose": true,
     "tensorboard_write_graph": true,
-    "early_stopping": true
+    "early_stopping": false
   }
 }
