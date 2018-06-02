@@ -1,20 +1,15 @@
 from base.base_data_loader import BaseDataLoader
 from keras.preprocessing.image import ImageDataGenerator
 from utils import constants
+from keras.applications.inception_v3 import preprocess_input
 import os
 
 class FineTunedDataLoader(BaseDataLoader):
 
     def __init__(self, config):
         super().__init__(config)
-        self.train_datagen = ImageDataGenerator(rotation_range=15,
-                                                width_shift_range=0.2,
-                                                height_shift_range=0.2,
-                                                rescale=1. / 255,
-                                                shear_range=0.2,
-                                                zoom_range=0.2,
-                                                fill_mode='nearest')
-        self.test_datagen = ImageDataGenerator(rescale=1. / 255.)
+        self.train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+        self.test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
         self.train_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR_TRAINLIST01, "train")
         self.test_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR_TRAINLIST01, "validation")
 

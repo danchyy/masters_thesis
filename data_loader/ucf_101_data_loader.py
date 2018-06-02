@@ -79,10 +79,11 @@ class Ucf101DataLoader(BaseDataLoader):
         assert cropped_img.shape[:2] == constants.IMAGE_DIMS
         # return the resized image
 
-        """if np.random.rand() < 0.5:
+        """if np.random.rand() < 0.3:
             cropped_img = cv2.flip(cropped_img, 0)  # horizontal flip
-        if np.random.rand() < 0.5:
+        if np.random.rand() < 0.3:
             cropped_img = cv2.flip(cropped_img, 1)  # vertical flip"""
+
 
         return cropped_img
 
@@ -98,16 +99,17 @@ class Ucf101DataLoader(BaseDataLoader):
 
         indices_for_sequence = [int(a) for a in np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)]
         while success:
-
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             if count in indices_for_sequence:
                 image = self.augment_image(image)
                 frames.append(image)
             success, image = cap.read()
-            # print('Read a new frame: ', success)
             count += 1
+
         cap = cv2.VideoCapture(full_path)
         while len(frames) < constants.LSTM_SEQUENCE_LENGTH:
             success, image = cap.read()
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image = self.augment_image(image)
             frames.append(image)
         frames = frames[:constants.LSTM_SEQUENCE_LENGTH]

@@ -20,6 +20,8 @@ UCF_101_FEATURE_VECTORS = os.path.join(ROOT_FOLDER, "data", "UCF_101_feature_vec
 
 IMAGE_DIMS = (299, 299)
 
+UCF_101_SEQUENCE_FRAMES_DATA = os.path.join(ROOT_FOLDER, "data", "UCF_101_sequence_frames")
+
 UCF_101_LSTM_DATA = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM")
 
 UCF_101_LSTM_DATA_train01 = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM_augmented")

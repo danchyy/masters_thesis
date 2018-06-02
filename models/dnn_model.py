@@ -1,10 +1,8 @@
 from base.base_model import BaseModel
 from keras.models import Sequential
-from keras.layers.recurrent import LSTM
 from keras.layers import Dense, Dropout, Flatten
 from keras import optimizers
 from utils import constants
-from utils.util_script import get_number_of_classes
 
 
 class DNNModel(BaseModel):
