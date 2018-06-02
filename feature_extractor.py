@@ -1,6 +1,9 @@
 import os
+
+from keras.layers import GlobalAveragePooling2D
 from keras.preprocessing import image
 from keras.applications.inception_v3 import InceptionV3, preprocess_input
+from keras.models import Model
 from data_loader.ucf_101_data_loader import Ucf101DataLoader
 from utils import constants
 import numpy as np
@@ -16,9 +19,11 @@ def extract_features():
     data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split)
 
     # initializing model
-    model = InceptionV3(weights='imagenet', include_top=False, input_shape=(constants.IMAGE_DIMS[0], constants.IMAGE_DIMS[1]
+    pre_model = InceptionV3(weights='imagenet', include_top=False, input_shape=(constants.IMAGE_DIMS[0], constants.IMAGE_DIMS[1]
                                                                             , 3))
-
+    x = pre_model.output
+    x = GlobalAveragePooling2D()(x)
+    model = Model(inputs=pre_model.input, outputs=x)
     log_train = "log_train.txt"
     if os.path.exists(log_train):
         visited_log = open(log_train, "r").readlines()
@@ -53,11 +58,12 @@ def extract_features():
             img_data = preprocess_input(img_data)
 
             feature_vector = model.predict(img_data)
-            feature_vector = np.array(feature_vector[0][0][0])
+            feature_vector = np.array(feature_vector[0])
             features.append(feature_vector)
 
         features = np.array(features)
         if features.shape != (constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE):
+            print(features.shape)
             with open("WRONG_SHAPES.txt", "a") as out_file:
                 out_file.write(curr_video_key + "\n")
         dest_features_path = os.path.join(train_target, curr_video_key + ".npy")
@@ -93,7 +99,7 @@ def extract_features():
             img_data = preprocess_input(img_data)
 
             feature_vector = model.predict(img_data)
-            feature_vector = np.array(feature_vector[0][0][0])
+            feature_vector = np.array(feature_vector[0])
             features.append(feature_vector)
 
         features = np.array(features)
