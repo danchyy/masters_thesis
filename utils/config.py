@@ -22,14 +22,26 @@ def get_config_from_json(json_file):
 
 def process_config(json_file):
     config, _ = get_config_from_json(json_file)
-    config.callbacks.tensorboard_log_dir = os.path.join("experiments", config.exp.name, time.strftime("%Y-%m-%d-%H-%M-%S/",
+    start_name = config.exp.name
+    name = start_name
+    if config.model.architecture.available:
+        name = name + "_bi" if config.model.architecture.bidirectional else name
+        if "lstm" in config.model.architecture:
+            for layer_dim in config.model.architecture.lstm:
+                name += "_" + str(layer_dim)
+        if "dense" in config.model.architecture:
+            for layer_dim in config.model.architecture.dense:
+                name += "_" + str(layer_dim)
+    name += "_" + config.model.optimizing.optimizer
+    name += "_" + str(config.model.optimizing.learning_rate)
+    config.callbacks.tensorboard_log_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "logs/")
-    config.callbacks.checkpoint_dir = os.path.join("experiments", config.exp.name, time.strftime("%Y-%m-%d-%H-%M-%S/",
+    config.callbacks.checkpoint_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "checkpoints/")
-    config.callbacks.model_dir = os.path.join("experiments", config.exp.name, time.strftime("%Y-%m-%d-%H-%M-%S/",
+    config.callbacks.model_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "model/")
-    config.callbacks.config_dir = os.path.join("experiments", config.exp.name, time.strftime("%Y-%m-%d-%H-%M-%S/",
+    config.callbacks.config_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "config/")
-    config.callbacks.result_dir = os.path.join("experiments", config.exp.name, time.strftime("%Y-%m-%d-%H-%M-%S/",
+    config.callbacks.result_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "results/")
     return config
