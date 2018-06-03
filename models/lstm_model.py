@@ -15,13 +15,16 @@ class LSTMModel(BaseModel):
 
     def build_model(self):
 
-        x = Input(shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE))
+        input = Input(shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE))
         if self.config.model.architecture.available:
             for i in range(len(self.config.model.architecture.lstm)):
                 neurons = self.config.model.architecture.lstm[i]
-                dropout = self.config.model.architecture.dropout
-                return_sequences = i == len(self.config.model.architecture.lstm)
-                x = LSTM(neurons, return_sequences=return_sequences, dropout=dropout)(x)
+                dropout = self.config.model.architecture.dropout[i]
+                return_sequences = i != (len(self.config.model.architecture.lstm)-1)
+                if i == 0:
+                    x = LSTM(neurons, return_sequences=return_sequences, dropout=dropout)(input)
+                else:
+                    x = LSTM(neurons, return_sequences=return_sequences, dropout=dropout)(x)
             for neurons in self.config.model.architecture.dense:
                 x = Dense(neurons, activation="relu")(x)
         else:
@@ -31,10 +34,10 @@ class LSTMModel(BaseModel):
         predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
         self.model = Model(inputs=input, outputs=predictions)
 
-        optimizer = optimizers.get(self.config.model.optimizer)
+        optimizer = optimizers.get(self.config.model.optimizing.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
-        optimizer.lr = self.config.model.learning_rate
-        if self.config.model.optimizer in ["adam", "rmsprop"]:
+        optimizer.lr = self.config.model.optimizing.learning_rate
+        if self.config.model.optimizing.optimizer in ["adam", "rmsprop"]:
             optimizer.decay = self.config.model.decay
-        self.model.compile(optimizer=self.config.model.optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
+        self.model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
         return self.model

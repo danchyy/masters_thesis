@@ -27,6 +27,7 @@ class DNNModel(BaseModel):
             x = Dropout(0.5)(x)
         predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
         self.model = Model(inputs=input, outputs=predictions)
+
         optimizer = optimizers.get(self.config.model.optimizing.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
         optimizer.lr = self.config.model.optimizing.learning_rate

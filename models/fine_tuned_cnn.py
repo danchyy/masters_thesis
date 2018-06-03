@@ -30,10 +30,11 @@ class FineTunedCNN(BaseModel):
             x = Dropout(0.5)(x)
         predictions = Dense(get_number_of_classes(), activation="softmax")(x)
         self.model = Model(inputs=pretrained_model.input, outputs=predictions)
-        optimizer = optimizers.get(self.config.model.optimizer)
+
+        optimizer = optimizers.get(self.config.model.optimizing.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
-        optimizer.lr = self.config.model.learning_rate
+        optimizer.lr = self.config.model.optimizing.learning_rate
         if self.config.model.optimizing.optimizer in ["adam", "rmsprop"]:
             optimizer.decay = self.config.model.decay
-        self.model.compile(optimizer=self.config.model.optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
+        self.model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
         return self.model
