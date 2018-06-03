@@ -8,13 +8,13 @@
   },
   "model":{
     "name": "lstm_model.LSTMModel",
-    "optimizing:": {
+    "optimizing": {
       "learning_rate": 0.001,
       "decay": 1e-6,
       "optimizer": "adam"
     },
     "architecture": {
-      "available": false,
+      "available": true,
       "lstm": [
         1024,
         1024
