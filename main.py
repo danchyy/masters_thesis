@@ -28,7 +28,9 @@ def main(memory_frac, config, model_type):
     tf_config = tf.ConfigProto()
     tf_config.gpu_options.per_process_gpu_memory_fraction = memory_frac
     set_session(tf.Session(config=tf_config))
-
+    if model_type is None and config is None:
+        print("Pass either --model_type argument or --config argument")
+        sys.exit(1)
     if model_type is not None:
         config_path = get_config_for_model(model_type)
     else:
@@ -62,7 +64,8 @@ def main(memory_frac, config, model_type):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Parser for training of net')
+    parser = argparse.ArgumentParser(description='Parser for training of deep neural net. '
+                                                 'You need to pass either config or model_type.')
     parser.add_argument('--memory_frac', dest='memory_frac', type=float,
                         help='Fraction of gpu which will be used for training', required=True)
     parser.add_argument('--config', dest='config', type=str, help="Path to config which will be used for training")
