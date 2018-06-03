@@ -15,10 +15,19 @@ class LSTMModel(BaseModel):
 
     def build_model(self):
 
-        input = Input(shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE))
-        x = LSTM(1024, return_sequences=False)(input)
-        x = Dense(256, activation="relu")(x)
-        x = Dropout(0.5)(x)
+        x = Input(shape=(constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE))
+        if self.config.model.architecture.available:
+            for i in range(len(self.config.model.architecture.lstm)):
+                neurons = self.config.model.architecture.lstm[i]
+                dropout = self.config.model.architecture.dropout
+                return_sequences = i == len(self.config.model.architecture.lstm)
+                x = LSTM(neurons, return_sequences=return_sequences, dropout=dropout)(x)
+            for neurons in self.config.model.architecture.dense:
+                x = Dense(neurons, activation="relu")(x)
+        else:
+            x = LSTM(1024, return_sequences=False, dropout=0.5)(x)
+            x = Dense(512, activation="relu")(x)
+            x = Dropout(0.5)(x)
         predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
         self.model = Model(inputs=input, outputs=predictions)
 

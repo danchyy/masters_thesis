@@ -4,13 +4,22 @@
     "num_of_classes": 101
   },
   "model":{
-    "learning_rate": 0.0001,
-    "decay": 1e-6,
-    "optimizer": "adam"
+    "optimizing": {
+      "learning_rate": 0.001,
+      "decay": 1e-6,
+      "optimizer": "adam"
+    },
+    "architecture": {
+      "available": false,
+      "dense": [
+        2048,
+        1024
+      ]
+    }
   },
   "trainer":{
-    "num_epochs": 50,
-    "batch_size": 32,
+    "num_epochs": 5,
+    "batch_size": 512,
     "verbose_training": true,
     "train_split": "train01.txt",
     "test_split": "validation01.txt"

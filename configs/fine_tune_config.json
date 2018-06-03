@@ -4,8 +4,18 @@
     "num_of_classes": 101
   },
   "model":{
-    "learning_rate": 0.001,
-    "optimizer": "adam"
+    "optimizing": {
+      "learning_rate": 0.001,
+      "decay": 1e-6,
+      "optimizer": "adam"
+    },
+    "architecture": {
+      "available": false,
+      "dense": [
+        2048,
+        1024
+      ]
+    }
   },
   "trainer":{
     "num_epochs": 30,

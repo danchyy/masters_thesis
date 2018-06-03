@@ -1,12 +1,33 @@
 {
   "exp": {
-    "name": "lstm_256",
+    "name": "lstm",
     "num_of_classes": 101
   },
+  "data_loader": {
+    "name": "lstm_data_loader.LSTMDataLoader"
+  },
   "model":{
-    "learning_rate": 0.001,
-    "decay": 1e-6,
-    "optimizer": "adam"
+    "name": "lstm_model.LSTMModel",
+    "optimizing:": {
+      "learning_rate": 0.001,
+      "decay": 1e-6,
+      "optimizer": "adam"
+    },
+    "architecture": {
+      "available": false,
+      "lstm": [
+        1024,
+        1024
+      ],
+      "bidirectional": false,
+      "dropout": [
+        0.5,
+        0.5
+      ],
+      "dense": [
+        512
+      ]
+    }
   },
   "trainer":{
     "num_epochs": 50,

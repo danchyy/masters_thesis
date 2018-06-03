@@ -21,12 +21,19 @@ class FineTunedCNN(BaseModel):
             layer.trainable = False
         x = pretrained_model.output
         x = GlobalAveragePooling2D()(x)
-        x = Dense(2048, activation="relu")(x)
-        x = Dropout(0.5)(x)
+        if self.config.model.architecture.available:
+            for layer_num in self.config.model.architecture.dense:
+                x = Dense(layer_num, activation="relu")(x)
+                x = Dropout(0.5)(x)
+        else:
+            x = Dense(2048, activation="relu")(x)
+            x = Dropout(0.5)(x)
         predictions = Dense(get_number_of_classes(), activation="softmax")(x)
         self.model = Model(inputs=pretrained_model.input, outputs=predictions)
-        """optimizer = optimizers.get(self.config.model.optimizer)
+        optimizer = optimizers.get(self.config.model.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
-        optimizer.lr = self.config.model.learning_rate"""
+        optimizer.lr = self.config.model.learning_rate
+        if self.config.model.optimizing.optimizer in ["adam", "rmsprop"]:
+            optimizer.decay = self.config.model.decay
         self.model.compile(optimizer=self.config.model.optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
         return self.model
