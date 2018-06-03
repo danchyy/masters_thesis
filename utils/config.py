@@ -30,4 +30,6 @@ def process_config(json_file):
                                                         time.localtime()), "model/")
     config.callbacks.config_dir = os.path.join("experiments", config.exp.name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "config/")
+    config.callbacks.result_dir = os.path.join("experiments", config.exp.name, time.strftime("%Y-%m-%d-%H-%M-%S/",
+                                                        time.localtime()), "results/")
     return config

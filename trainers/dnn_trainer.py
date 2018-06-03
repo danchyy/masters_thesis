@@ -1,5 +1,6 @@
 from base.base_trainer import BaseTrain
 from utils.util_script import get_number_of_items
+import os
 
 
 class DNNTrainer(BaseTrain):
@@ -33,3 +34,9 @@ class DNNTrainer(BaseTrain):
         self.acc.extend(history.history['acc'])
         self.val_loss.extend(history.history['val_loss'])
         self.val_acc.extend(history.history['val_acc'])
+
+        result_dir = self.config.callbacks.result_dir
+        for metric in ['loss', 'acc', 'val_loss', 'val_acc']:
+            values = [str(value) + "\n" for value in history.history[metric]]
+            open(os.path.join(result_dir, metric + ".txt"), "w").writelines(values)
+        open(os.path.join(result_dir, "best_val_acc.txt"), "w").write(str(max(self.val_acc)))
