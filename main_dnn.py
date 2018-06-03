@@ -12,19 +12,22 @@ from keras.backend.tensorflow_backend import set_session
 import argparse
 
 
-def main(memory_frac):
+def main(memory_frac, config):
 
     tf_config = tf.ConfigProto()
     tf_config.gpu_options.per_process_gpu_memory_fraction = memory_frac
     set_session(tf.Session(config=tf_config))
+    if config is None:
+        config_path = constants.DNN_CONFIG
+    else:
+        config_path = config
 
-    config_path = constants.DNN_CONFIG
     # process the json configuration file
     config = process_config(config_path)
 
     # create the experiments dirs
     create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir, config.callbacks.model_dir,
-                 config.callbacks.config_dir])
+                 config.callbacks.config_dir, config.callbacks.result_dir])
 
     print('Create the data generator.')
     data_loader = DNNDataLoader(config)
@@ -45,7 +48,8 @@ def main(memory_frac):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parser for training of net')
     parser.add_argument('--memory_frac', dest='memory_frac', type=float,
-                        help='Fractiong of gpu which will be used for training', required=True)
+                        help='Fraction of gpu which will be used for training', required=True)
+    parser.add_argument('--config', dest='config', type=str, help="Path to config which will be used for training")
 
     args = parser.parse_args()
-    main(args.memory_frac)
+    main(args.memory_frac, args.config)
