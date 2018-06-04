@@ -3,7 +3,11 @@
     "name": "fine_tune_inception_2048",
     "num_of_classes": 101
   },
+  "data_loader": {
+    "name": "fine_tuned_data_loader.FineTunedDataLoader"
+  },
   "model":{
+    "name": "fine_tuned_cnn.FineTunedCNN",
     "optimizing": {
       "learning_rate": 0.001,
       "decay": 1e-6,

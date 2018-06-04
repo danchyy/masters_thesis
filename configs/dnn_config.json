@@ -3,7 +3,11 @@
     "name": "dnn_512_384_256",
     "num_of_classes": 101
   },
+  "data_loader": {
+    "name": "dnn_data_loader.DNNDataLoader"
+  },
   "model":{
+    "name": "dnn_model.DNNModel",
     "optimizing": {
       "learning_rate": 0.001,
       "decay": 1e-6,
