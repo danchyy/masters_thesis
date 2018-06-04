@@ -64,7 +64,8 @@ class BaseTrain(object):
                 write_graph=self.config.callbacks.tensorboard_write_graph,
             ))
 
-        if self.config.callbacks.early_stopping:
+        if self.config.callbacks.early_stopping.available:
             self.callbacks.append(
-                EarlyStopping(monitor="val_loss", mode="auto", patience=5)
+                EarlyStopping(monitor=self.config.callbacks.early_stopping.monitor, mode="auto",
+                              patience=self.config.callbacks.early_stopping.patience)
             )
