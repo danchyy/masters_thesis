@@ -28,7 +28,7 @@ class LSTMModel(BaseModel):
             for neurons in self.config.model.architecture.dense:
                 x = Dense(neurons, activation="relu")(x)
         else:
-            x = LSTM(1024, return_sequences=False, dropout=0.5)(x)
+            x = LSTM(1024, return_sequences=False, dropout=0.5)(input)
             x = Dense(512, activation="relu")(x)
             x = Dropout(0.5)(x)
         predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)

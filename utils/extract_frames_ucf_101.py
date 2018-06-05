@@ -25,31 +25,34 @@ def extract_video_frames_for_video(video_name):
 
     indices_for_sequence = [int(a) for a in np.arange(0, length, length / constants.LSTM_SEQUENCE_LENGTH)]
     class_name = os.path.basename(os.path.abspath(os.path.join(video_name, os.path.pardir)))
-    added = []
+    added = 0
     count = 0
     if not os.path.exists(os.path.join(constants.UCF_101_FRAMES_DIR, class_name)):
         os.makedirs(os.path.join(constants.UCF_101_FRAMES_DIR, class_name))
     if not os.path.exists(os.path.join(constants.UCF_101_FRAMES_DIR, class_name, name_only)):
         os.makedirs(os.path.join(constants.UCF_101_FRAMES_DIR, class_name, name_only))
+    indices_for_sequence = indices_for_sequence[:30]
     while success:
         if count in indices_for_sequence:
             frame_name = "frame_" + str(count) + ".jpg"
             # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             full_frame_path = os.path.join(constants.UCF_101_FRAMES_DIR, class_name, name_only, frame_name)
             res = cv2.imwrite(full_frame_path, image)  # save frame as JPEG file
+            added += 1
         success, image = vidcap.read()
         # print('Read a new frame: ', success)
         count += 1
     cap = cv2.VideoCapture(video_name)
-    while len(added) < constants.LSTM_SEQUENCE_LENGTH:
+    while added < constants.LSTM_SEQUENCE_LENGTH:
         success, image = cap.read()
         # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         frame_name = "frame_" + str(count) + ".jpg"
-        added.append(frame_name)
+        added += 1
+
         full_frame_path = os.path.join(constants.UCF_101_FRAMES_DIR, class_name, name_only, frame_name)
         res = cv2.imwrite(full_frame_path, image)  # save frame as JPEG file
         count += 1
-    assert len(added) == constants.LSTM_SEQUENCE_LENGTH
+    assert added == constants.LSTM_SEQUENCE_LENGTH
 
 
 def iterate_over_folders():
@@ -64,12 +67,12 @@ def iterate_over_folders():
         count = 0
         total = len(videos)
         for video in videos:
+            print(video)
             full_video_path = os.path.join(constants.UCF_101_DATA_DIR, class_name, video)
             extract_video_frames_for_video(full_video_path)
             count += 1
             if count % 10 == 0:
                 print("Progress for " + class_name + ": %d / %d" % (count, total))
-
         print("Ended with " + class_name)
 
 

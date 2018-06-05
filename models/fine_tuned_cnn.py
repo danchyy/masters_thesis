@@ -28,7 +28,7 @@ class FineTunedCNN(BaseModel):
         else:
             x = Dense(2048, activation="relu")(x)
             x = Dropout(0.5)(x)
-        predictions = Dense(get_number_of_classes(), activation="softmax")(x)
+        predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
         self.model = Model(inputs=pretrained_model.input, outputs=predictions)
 
         optimizer = optimizers.get(self.config.model.optimizing.optimizer)
