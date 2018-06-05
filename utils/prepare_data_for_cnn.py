@@ -19,9 +19,9 @@ def create_train_test_dict(train_split_lines, test_split_lines):
 target_dir = constants.UCF_101_CNN_DATA_DIR_TRAINLIST01
 source_dir = constants.UCF_101_FRAMES_DIR
 
-train_split = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "train01.txt"), "r").readlines()
+train_split = open(os.path.join(constants.UCF_101_DATA_SPLITS, "train01.txt"), "r").readlines()
 
-test_split = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, "validation01.txt"), "r").readlines()
+test_split = open(os.path.join(constants.UCF_101_DATA_SPLITS, "validation01.txt"), "r").readlines()
 
 train_test_dict = create_train_test_dict(train_split, test_split)
 

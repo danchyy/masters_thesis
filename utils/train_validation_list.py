@@ -26,7 +26,7 @@ def split_current_class(dict_data, number_of_groups):
 train_splits = ["trainlist01.txt", "trainlist02.txt", "trainlist03.txt"]
 
 for split in train_splits:
-    lines = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, split)).readlines()
+    lines = open(os.path.join(constants.UCF_101_DATA_SPLITS, split)).readlines()
     x, y = [], []
     counter = Counter()
     number_of_groups = 1
@@ -67,9 +67,9 @@ for split in train_splits:
     train_name = "train" + file_index + ".txt"
     validation_name = "validation" + file_index + ".txt"
     print("Writing to: " + train_name)
-    open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, train_name), "w").writelines(all_train)
+    open(os.path.join(constants.UCF_101_DATA_SPLITS, train_name), "w").writelines(all_train)
     print("Writing to: " + validation_name)
-    open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, validation_name), "w").writelines(all_validation)
+    open(os.path.join(constants.UCF_101_DATA_SPLITS, validation_name), "w").writelines(all_validation)
     for line in all_validation:
         if line in all_train:
             print("ERROR")

@@ -16,7 +16,7 @@ def get_args():
 
 
 def get_ucf_101_dict():
-    class_lines = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR,
+    class_lines = open(os.path.join(constants.UCF_101_DATA_SPLITS,
                                     constants.UCF_101_CLASS_FILE_NAME)).readlines()
     class_dict = dict()
     for line in class_lines:
@@ -26,10 +26,10 @@ def get_ucf_101_dict():
 
 
 def get_number_of_classes():
-    class_lines = open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR,
+    class_lines = open(os.path.join(constants.UCF_101_DATA_SPLITS,
                                     constants.UCF_101_CLASS_FILE_NAME)).readlines()
     return len(class_lines)
 
 
 def get_number_of_items(name_of_split):
-    return len(open(os.path.join(constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR, name_of_split)).readlines())-1
+    return len(open(os.path.join(constants.UCF_101_DATA_SPLITS, name_of_split)).readlines()) - 1
