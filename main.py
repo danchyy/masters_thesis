@@ -16,7 +16,7 @@ config_dict = {
     "lstm": constants.LSTM_CONFIG,
     "fine_tuned": constants.FINE_TUNED_CONFIG,
     "dnn": constants.DNN_CONFIG,
-    "time_cnn":
+    "time_cnn": constants.TIME_DISTRIBUTED_CNN_CONFIG
 }
 
 
