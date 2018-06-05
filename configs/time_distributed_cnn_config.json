@@ -4,10 +4,10 @@
     "num_of_classes": 101
   },
   "data_loader": {
-    "name": "time_distribtued_cnn_data_loader.TimeDistributedCNNDataLoader"
+    "name": "time_distributed_cnn_data_loader.TimeDistributedCNNDataLoader"
   },
   "model":{
-    "name": "time_distribtued_cnn.TimeDistributedCNN",
+    "name": "time_distributed_cnn.TimeDistributedCNN",
     "optimizing": {
       "learning_rate": 0.001,
       "decay": 1e-6,
