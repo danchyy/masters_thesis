@@ -3,6 +3,7 @@ from utils import constants
 import os
 from data_generators.video_data_generator import VideoDataGenerator
 
+
 class TimeDistributedCNNDataLoader(BaseDataLoader):
 
     def __init__(self, config):
