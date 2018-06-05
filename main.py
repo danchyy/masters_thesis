@@ -25,9 +25,14 @@ def get_config_for_model(model_type):
 
 def main(memory_frac, config, model_type):
 
-    tf_config = tf.ConfigProto()
-    tf_config.gpu_options.per_process_gpu_memory_fraction = memory_frac
-    set_session(tf.Session(config=tf_config))
+    if memory_frac is None:
+        tf_config = tf.ConfigProto()
+        tf_config.gpu_options.allow_growth = True
+        set_session(tf.Session(config=tf_config))
+    else:
+        tf_config = tf.ConfigProto()
+        tf_config.gpu_options.per_process_gpu_memory_fraction = memory_frac
+        set_session(tf.Session(config=tf_config))
     if model_type is None and config is None:
         print("Pass either --model_type argument or --config argument")
         sys.exit(1)
@@ -67,8 +72,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parser for training of deep neural net. '
                                                  'You need to pass either config or model_type.')
     parser.add_argument('--memory_frac', dest='memory_frac', type=float,
-                        help='Fraction of gpu which will be used for training', required=True)
-    parser.add_argument('--config', dest='config', type=str, help="Path to config which will be used for training")
+                        help='Fraction of gpu which will be used for training.\nIf nothing is passed, allow growth '
+                             'option will be turned on.', required=False)
+    parser.add_argument('--config', dest='config', type=str, help="Path to config which will be used for training.")
     parser.add_argument('--model_type', dest='model_type', type=str, help="Overrides the config argument and loads "
                                                                           "models with set up parameters:\n"
                                                                           "lstm - LSTMModel\n"
