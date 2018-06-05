@@ -15,7 +15,8 @@ import sys
 config_dict = {
     "lstm": constants.LSTM_CONFIG,
     "fine_tuned": constants.FINE_TUNED_CONFIG,
-    "dnn": constants.DNN_CONFIG
+    "dnn": constants.DNN_CONFIG,
+    "time_cnn":
 }
 
 
@@ -79,7 +80,8 @@ if __name__ == '__main__':
                                                                           "models with set up parameters:\n"
                                                                           "lstm - LSTMModel\n"
                                                                           "fine_tune - FineTuned\n"
-                                                                          "dnn - DNNModel")
+                                                                          "dnn - DNNModel\n"
+                                                                          "time_cnn - TimeDistributedCNN")
 
     args = parser.parse_args()
     main(args.memory_frac, args.config, args.model_type)

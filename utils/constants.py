@@ -30,6 +30,8 @@ LSTM_CONFIG = os.path.join(ROOT_FOLDER, "configs", "lstm_config.json")
 
 DNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "dnn_config.json")
 
+TIME_DISTRIBUTED_CNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "time_distributed_cnn_config.json")
+
 LSTM_SEQUENCE_LENGTH = 30
 
 LSTM_FEATURE_SIZE = 2048
