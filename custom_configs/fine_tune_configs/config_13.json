@@ -25,8 +25,8 @@
     "num_epochs": 50,
     "batch_size": 32,
     "verbose_training": true,
-    "train_split": "cleaned_train01.txt",
-    "test_split": "cleaned_test01.txt"
+    "train_split": "train01.txt",
+    "test_split": "validation01.txt"
   },
   "callbacks":{
     "save_every_n": 1,
