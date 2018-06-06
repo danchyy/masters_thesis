@@ -8,11 +8,12 @@ from keras.utils import to_categorical
 
 class SequenceDataGenerator(Sequence):
 
-    def __init__(self, batch_size, data_dir, num_of_classes):
+    def __init__(self, batch_size, data_dir, num_of_classes, should_average=False):
         self.batch_size = batch_size
         self.data_dir = data_dir
         self.file_names = self.get_names_in_dir()
         self.num_of_classes = num_of_classes
+        self.should_average = should_average
 
     def __getitem__(self, index):
         start_index, end_index = index * self.batch_size, (index + 1) * self.batch_size
@@ -26,7 +27,10 @@ class SequenceDataGenerator(Sequence):
             labels.append(updated_label)
             curr_feature = np.load(json_data["features_path"])
             features.append(curr_feature)
-        return np.array(features), np.array(to_categorical(labels, num_classes=self.num_of_classes))
+        features = np.array(features)
+        if self.should_average:
+            features = np.mean(features, axis=0)
+        return features, np.array(to_categorical(labels, num_classes=self.num_of_classes))
 
     def __len__(self):
         return int(np.ceil(len(self.file_names) / float(self.batch_size)))
