@@ -46,5 +46,5 @@ class LSTMModel(BaseModel):
         optimizer.lr = self.config.model.optimizing.learning_rate
         if self.config.model.optimizing.optimizer in ["adam", "rmsprop"]:
             optimizer.decay = self.config.model.decay
-        self.model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=["accuracy"])
+        self.model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=self.metrics)
         return self.model
