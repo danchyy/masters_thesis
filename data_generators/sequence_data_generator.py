@@ -26,10 +26,11 @@ class SequenceDataGenerator(Sequence):
             updated_label = int(label) - 1  # SO WE CAN MOVE FIRST LABEL TO ZERO
             labels.append(updated_label)
             curr_feature = np.load(json_data["features_path"])
+            if self.should_average:
+                curr_feature = np.mean(curr_feature, axis=0)
+                curr_feature = np.expand_dims(curr_feature, axis=0)
             features.append(curr_feature)
         features = np.array(features)
-        if self.should_average:
-            features = np.mean(features, axis=0)
         return features, np.array(to_categorical(labels, num_classes=self.num_of_classes))
 
     def __len__(self):
