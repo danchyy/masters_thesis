@@ -14,7 +14,7 @@
       "optimizer": "adam"
     },
     "architecture": {
-      "available": true,
+      "available": false,
       "lstm": [
         1024,
         1024
