@@ -16,7 +16,8 @@ config_dict = {
     "lstm": constants.LSTM_CONFIG,
     "fine_tuned": constants.FINE_TUNED_CONFIG,
     "dnn": constants.DNN_CONFIG,
-    "time_cnn": constants.TIME_DISTRIBUTED_CNN_CONFIG
+    "time_cnn": constants.TIME_DISTRIBUTED_CNN_CONFIG,
+    "avg_seq_cls": constants.AVERAGED_SEQUENCES_CLASSIFIER_CONFIG
 }
 
 
@@ -81,7 +82,8 @@ if __name__ == '__main__':
                                                                           "lstm - LSTMModel\n"
                                                                           "fine_tune - FineTuned\n"
                                                                           "dnn - DNNModel\n"
-                                                                          "time_cnn - TimeDistributedCNN")
+                                                                          "time_cnn - TimeDistributedCNN\n"
+                                                                          "avg_seq_cls - AveragedSequencesClassifier")
 
     args = parser.parse_args()
     main(args.memory_frac, args.config, args.model_type)

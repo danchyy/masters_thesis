@@ -32,6 +32,8 @@ DNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "dnn_config.json")
 
 TIME_DISTRIBUTED_CNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "time_distributed_cnn_config.json")
 
+AVERAGED_SEQUENCES_CLASSIFIER_CONFIG = os.path.join(ROOT_FOLDER, "configs", "averaged_sequences_classifier_config.json")
+
 LSTM_SEQUENCE_LENGTH = 30
 
 LSTM_FEATURE_SIZE = 2048
