@@ -13,11 +13,16 @@
       "decay": 1e-6,
       "optimizer": "adam"
     },
+    "train_lower" : false,
     "architecture": {
       "available": false,
       "dense": [
         2048,
         1024
+      ],
+      "dropout": [
+        0.5,
+        0.5
       ]
     }
   },

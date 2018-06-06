@@ -18,13 +18,15 @@ class FineTunedCNN(BaseModel):
                                                     input_shape=(constants.IMAGE_DIMS[0], constants.IMAGE_DIMS[1], 3))
 
         for layer in pretrained_model.layers:
-            layer.trainable = False
+            layer.trainable = self.config.model.train_lower
         x = pretrained_model.output
         x = GlobalAveragePooling2D()(x)
         if self.config.model.architecture.available:
-            for layer_num in self.config.model.architecture.dense:
-                x = Dense(layer_num, activation="relu")(x)
-                x = Dropout(0.5)(x)
+            for i in range(len(self.config.model.architecture.dense)):
+                dense_num = self.config.model.architecture.dense[i]
+                dropout_rate = self.config.model.architecture.dropout[i]
+                x = Dense(dense_num, activation="relu")(x)
+                x = Dropout(dropout_rate)(x)
         else:
             x = Dense(2048, activation="relu")(x)
             x = Dropout(0.5)(x)
