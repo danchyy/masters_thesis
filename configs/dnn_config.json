@@ -22,8 +22,8 @@
     }
   },
   "trainer":{
-    "num_epochs": 5,
-    "batch_size": 512,
+    "num_epochs": 50,
+    "batch_size": 32,
     "verbose_training": true,
     "train_split": "train01.txt",
     "test_split": "validation01.txt"
