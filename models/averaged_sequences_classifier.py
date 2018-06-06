@@ -16,7 +16,6 @@ class AveragedSequencesClassifier(BaseModel):
 
         x = Flatten()(x)
         predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
-        print(predictions.shape)
         self.model = Model(inputs=input_layer, outputs=predictions)
         optimizer = optimizers.get(self.config.model.optimizing.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)

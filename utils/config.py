@@ -27,13 +27,16 @@ def process_config(json_file):
     if config.model.architecture.available:
         name = name + "_bi" if config.model.architecture.bidirectional else name
         if "lstm" in config.model.architecture:
+            name += "_lstm"
             for layer_dim in config.model.architecture.lstm:
                 name += "_" + str(layer_dim)
         if "dense" in config.model.architecture:
+            name += "_dense"
             for layer_dim in config.model.architecture.dense:
                 name += "_" + str(layer_dim)
     name += "_" + config.model.optimizing.optimizer
     name += "_" + str(config.model.optimizing.learning_rate)
+    name += "_" + str(config.trainer.batch_size)
     config.callbacks.tensorboard_log_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "logs/")
     config.callbacks.checkpoint_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
