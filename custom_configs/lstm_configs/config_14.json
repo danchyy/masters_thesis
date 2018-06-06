@@ -13,18 +13,23 @@
       "decay": 1e-6,
       "optimizer": "adam"
     },
+    "unrolled_sequence": true,
     "architecture": {
       "available": true,
       "lstm": [
-        2048,
-        2048
+        512,
+        512,
+        512
       ],
       "bidirectional": false,
       "dropout": [
         0.5,
+        0.5,
         0.5
       ],
       "dense": [
+      ],
+      "dense_dropout": [
       ]
     }
   },
