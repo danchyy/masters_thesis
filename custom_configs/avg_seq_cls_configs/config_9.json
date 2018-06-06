@@ -1,0 +1,51 @@
+{
+  "exp": {
+    "name": "avg_seq_cls",
+    "num_of_classes": 101
+  },
+  "data_loader": {
+    "name": "averaged_sequences_classifier_data_loader.AveragedSequencesClassifierDataLoader"
+  },
+  "model":{
+    "name": "averaged_sequences_classifier.AveragedSequencesClassifier",
+    "optimizing": {
+      "learning_rate": 0.001,
+      "decay": 1e-6,
+      "optimizer": "adam"
+    },
+    "architecture": {
+      "available": true,
+      "dense": [
+        1024,
+        1024,
+        1024
+      ],
+      "dropout": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "trainer":{
+    "num_epochs": 50,
+    "batch_size": 32,
+    "verbose_training": true,
+    "train_split": "train01.txt",
+    "test_split": "validation01.txt"
+  },
+  "callbacks":{
+    "save_every_n": 1,
+    "checkpoint_monitor": "val_acc",
+    "checkpoint_mode": "max",
+    "checkpoint_save_best_only": true,
+    "checkpoint_save_weights_only": true,
+    "checkpoint_verbose": true,
+    "tensorboard_write_graph": true,
+    "early_stopping": {
+      "available": true,
+      "patience": 7,
+      "monitor": "val_loss"
+    }
+  }
+}
