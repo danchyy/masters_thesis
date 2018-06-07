@@ -13,7 +13,7 @@ class DNNDataLoader(BaseDataLoader):
 
     def get_train_data(self):
         return SequenceDataGenerator(self.batch_size, self.train_dir, self.config.exp.num_of_classes,
-                                     should_subsample=True)
+                                     should_subsample=False)
 
     def get_test_data(self):
         return SequenceDataGenerator(self.batch_size, self.test_dir, self.config.exp.num_of_classes,
