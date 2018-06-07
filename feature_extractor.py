@@ -16,7 +16,7 @@ def extract_features():
     train_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "train")
     test_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "test")
 
-    generate_longer = True
+    generate_longer = False
     augment_data = True
     data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split,
                                    generate_longer=generate_longer, augment_data=augment_data)
@@ -96,6 +96,10 @@ def extract_features():
     augment_data = False
     data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split,
                                    generate_longer=generate_longer, augment_data=augment_data)
+    if generate_longer:
+        target_dim = (constants.LSTM_SEQUENCE_LENGTH_GENERATION, constants.LSTM_FEATURE_SIZE)
+    else:
+        target_dim = (constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE)
 
     for curr_video_key, curr_video, label in data_loader.retrieve_test_data_gen(parse_train=True):
         index += 1

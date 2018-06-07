@@ -2,8 +2,6 @@ from base.base_data_loader import BaseDataLoader
 from utils import constants
 from utils.util_script import get_ucf_101_dict
 import os
-from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing import image
 import numpy as np
 import cv2
 
@@ -17,8 +15,6 @@ class Ucf101DataLoader(BaseDataLoader):
         self.test_lines = open(test_split).readlines()
         self.resnet_dims = constants.IMAGE_DIMS
         self.class_dict = get_ucf_101_dict()
-        self.generator = ImageDataGenerator(zoom_range=0.4, horizontal_flip=0.3, rotation_range=15,
-                                            shear_range=0.4)
         self.generate_longer = generate_longer
         self.augment_data = augment_data
 
@@ -108,7 +104,9 @@ class Ucf101DataLoader(BaseDataLoader):
         assert cropped_img.shape[:2] == constants.IMAGE_DIMS
         # return the resized image
 
-        cropped_img = self.generator.random_transform(cropped_img)
+        """if np.random.rand() < 0.3:
+        cropped_img = cv2.flip(cropped_img, 0)  # horizontal flip
+        """
 
         return cropped_img
 
