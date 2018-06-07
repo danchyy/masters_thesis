@@ -1,15 +1,21 @@
 import os
 
+from keras.backend.tensorflow_backend import set_session
 from keras.layers import GlobalAveragePooling2D
 from keras.preprocessing import image
 from keras.applications.inception_v3 import InceptionV3, preprocess_input
 from keras.models import Model
 from data_loader.ucf_101_data_loader import Ucf101DataLoader
 from utils import constants
+import tensorflow as tf
 import numpy as np
 import json
 
 def extract_features():
+
+    tf_config = tf.ConfigProto()
+    tf_config.gpu_options.allow_growth = True
+    set_session(tf.Session(config=tf_config))
 
     train_split = os.path.join(constants.UCF_101_DATA_SPLITS, "train01.txt")
     test_split = os.path.join(constants.UCF_101_DATA_SPLITS, "validation01.txt")
