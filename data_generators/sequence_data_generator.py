@@ -8,12 +8,14 @@ from keras.utils import to_categorical
 
 class SequenceDataGenerator(Sequence):
 
-    def __init__(self, batch_size, data_dir, num_of_classes, should_average=False):
+    def __init__(self, batch_size, data_dir, num_of_classes, should_average=False, should_subsample=False):
         self.batch_size = batch_size
         self.data_dir = data_dir
         self.file_names = self.get_names_in_dir()
         self.num_of_classes = num_of_classes
         self.should_average = should_average
+        self.should_submsample = should_subsample
+        self.indices_subsample = np.arange(0, 50)
 
     def __getitem__(self, index):
         start_index, end_index = index * self.batch_size, (index + 1) * self.batch_size
@@ -26,6 +28,9 @@ class SequenceDataGenerator(Sequence):
             updated_label = int(label) - 1  # SO WE CAN MOVE FIRST LABEL TO ZERO
             labels.append(updated_label)
             curr_feature = np.load(json_data["features_path"])
+            if self.should_submsample:
+                random_indices = np.sort(np.random.choice(self.indices_subsample, size=30, replace=False))
+                curr_feature = curr_feature[random_indices]
             if self.should_average:
                 curr_feature = np.mean(curr_feature, axis=0)
                 curr_feature = np.expand_dims(curr_feature, axis=0)
