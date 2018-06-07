@@ -22,7 +22,7 @@ UCF_101_SEQUENCE_FRAMES_DATA = os.path.join(ROOT_FOLDER, "data", "UCF_101_sequen
 
 UCF_101_LSTM_DATA = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM")
 
-UCF_101_LSTM_DATA_train01 = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM_augmented")
+UCF_101_LSTM_DATA_AUGMENT = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM_augmented")
 
 FINE_TUNED_CONFIG = os.path.join(ROOT_FOLDER, "configs", "fine_tune_config.json")
 
@@ -35,5 +35,7 @@ TIME_DISTRIBUTED_CNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "time_distrib
 AVERAGED_SEQUENCES_CLASSIFIER_CONFIG = os.path.join(ROOT_FOLDER, "configs", "averaged_sequences_classifier_config.json")
 
 LSTM_SEQUENCE_LENGTH = 30
+
+LSTM_SEQUENCE_LENGTH_GENERATION = 50
 
 LSTM_FEATURE_SIZE = 2048
