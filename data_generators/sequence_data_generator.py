@@ -4,14 +4,17 @@ import json
 import numpy as np
 from random import shuffle
 from keras.utils import to_categorical
+from utils import constants
 
 
 class SequenceDataGenerator(Sequence):
 
-    def __init__(self, batch_size, data_dir, num_of_classes, should_average=False, should_subsample=False):
+    def __init__(self, batch_size, split, num_of_classes, should_average=False, should_subsample=False):
         self.batch_size = batch_size
-        self.data_dir = data_dir
-        self.file_names = self.get_names_in_dir()
+        self.data_dir = constants.UCF_101_EXTRACTED_FEATURES
+        self.split = split
+        self.file_names = self.get_file_names()
+        shuffle(self.file_names)
         self.num_of_classes = num_of_classes
         self.should_average = should_average
         self.should_submsample = should_subsample
@@ -44,7 +47,12 @@ class SequenceDataGenerator(Sequence):
     def on_epoch_end(self):
         shuffle(self.file_names)
 
-    def get_names_in_dir(self):
-        file_names = os.listdir(self.data_dir)
-        file_names = [os.path.join(self.data_dir, file_name) for file_name in file_names if file_name.endswith(".json")]
-        return file_names
+    def get_file_names(self):
+        file_names = os.listdir(self.split)
+        target_feature_names = []
+        for file_name in file_names:
+            name = file_name.split(" ")[0]
+            class_name, video_name = name.split("/")
+            full_name = class_name + "_" + video_name + ".label.json"
+            target_feature_names.append(full_name)
+        return target_feature_names

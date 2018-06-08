@@ -8,13 +8,13 @@ class DNNDataLoader(BaseDataLoader):
     def __init__(self, config):
         super().__init__(config)
         self.batch_size = self.config.trainer.batch_size
-        self.train_dir = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "train")
-        self.test_dir = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "test")
+        self.train_split = self.config.trainer.train_split
+        self.test_split = self.config.trainer.test_split
 
     def get_train_data(self):
-        return SequenceDataGenerator(self.batch_size, self.train_dir, self.config.exp.num_of_classes,
+        return SequenceDataGenerator(self.batch_size, self.train_split, self.config.exp.num_of_classes,
                                      should_subsample=False)
 
     def get_test_data(self):
-        return SequenceDataGenerator(self.batch_size, self.test_dir, self.config.exp.num_of_classes,
+        return SequenceDataGenerator(self.batch_size, self.test_split, self.config.exp.num_of_classes,
                                      should_subsample=False)
