@@ -48,7 +48,7 @@ class SequenceDataGenerator(Sequence):
         shuffle(self.file_names)
 
     def get_file_names(self):
-        file_names = os.listdir(self.split)
+        file_names = open(self.split).readlines()
         target_feature_names = []
         for file_name in file_names:
             name = file_name.split(" ")[0]
