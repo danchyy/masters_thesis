@@ -23,7 +23,7 @@ def split_current_class(dict_data, number_of_groups):
     return train_lines, validation_lines
 
 
-train_splits = ["trainlist01.txt", "trainlist02.txt", "trainlist03.txt"]
+train_splits = ["train_val01.txt", "train_val02.txt", "train_val03.txt"]
 
 for split in train_splits:
     lines = open(os.path.join(constants.UCF_101_DATA_SPLITS, split)).readlines()

@@ -10,8 +10,8 @@ max_frames = 450
 
 split_dir = constants.UCF_101_TRAIN_TEST_SPLIT_CLASS_DIR
 
-train_file_name = "trainlist01.txt"
-test_file_name = "testlist01.txt"
+train_file_name = "train_val01.txt"
+test_file_name = "test01.txt"
 
 frames_dir = constants.UCF_101_FRAMES_DIR
 
