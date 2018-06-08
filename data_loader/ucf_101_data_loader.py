@@ -37,8 +37,8 @@ class Ucf101DataLoader(BaseDataLoader):
         """
         for row in self.train_lines:
             class_name, file_name, label = self.parse_train_split_row(row)
-            final_name = class_name + "_" + file_name
-            yield final_name, self.load_frames_from_video(class_name, file_name), label
+            # final_name = class_name + "_" + file_name
+            yield class_name, file_name, self.load_frames_from_video(class_name, file_name), label
 
     def retrieve_test_data_gen(self, parse_train=False):
         """
@@ -103,10 +103,6 @@ class Ucf101DataLoader(BaseDataLoader):
         cropped_img = resized[start_height: end_height, random_start: random_end]
         assert cropped_img.shape[:2] == constants.IMAGE_DIMS
         # return the resized image
-
-        """if np.random.rand() < 0.3:
-        cropped_img = cv2.flip(cropped_img, 0)  # horizontal flip
-        """
 
         return cropped_img
 

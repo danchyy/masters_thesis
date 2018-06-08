@@ -24,6 +24,8 @@ UCF_101_LSTM_DATA = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM")
 
 UCF_101_LSTM_DATA_AUGMENT = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM_augmented")
 
+UCF_101_EXTRACTED_FEATURES = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracted_features")
+
 FINE_TUNED_CONFIG = os.path.join(ROOT_FOLDER, "configs", "fine_tune_config.json")
 
 LSTM_CONFIG = os.path.join(ROOT_FOLDER, "configs", "lstm_config.json")
@@ -33,6 +35,10 @@ DNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "dnn_config.json")
 TIME_DISTRIBUTED_CNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "time_distributed_cnn_config.json")
 
 AVERAGED_SEQUENCES_CLASSIFIER_CONFIG = os.path.join(ROOT_FOLDER, "configs", "averaged_sequences_classifier_config.json")
+
+LOCAL_VIDEO_DATA_FOLDER = "/Users/daniel/myWork/masters_thesis/data/UCF_101"
+
+LOCAL_EXTRACTED_FEATURES_DATA = "/Users/daniel/myWork/masters_thesis/data/UCF_101_extracted_features"
 
 LSTM_SEQUENCE_LENGTH = 30
 

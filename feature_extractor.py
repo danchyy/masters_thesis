@@ -17,10 +17,13 @@ def extract_features():
     tf_config.gpu_options.allow_growth = True
     set_session(tf.Session(config=tf_config))
 
-    train_split = os.path.join(constants.UCF_101_DATA_SPLITS, "train01.txt")
-    test_split = os.path.join(constants.UCF_101_DATA_SPLITS, "validation01.txt")
-    train_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "train")
-    test_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "test")
+    train_split = os.path.join(constants.UCF_101_DATA_SPLITS, "all_train_lines.txt")
+    test_split = os.path.join(constants.UCF_101_DATA_SPLITS, "all_test_lines.txt")
+    target_dir = constants.UCF_101_EXTRACTED_FEATURES
+    mac_target_dir = constants.LOCAL_EXTRACTED_FEATURES_DATA
+    mac_video_dir = constants.LOCAL_VIDEO_DATA_FOLDER
+    # train_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "train")
+    # test_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "test")
 
     generate_longer = False
     augment_data = True
@@ -57,7 +60,8 @@ def extract_features():
     else:
         target_dim = (constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE)
 
-    for curr_video_key, curr_video, label in data_loader.retrieve_train_data_gen():
+    for class_name, file_name, curr_video, label in data_loader.retrieve_train_data_gen():
+        curr_video_key = class_name + "_" + file_name
         index += 1
         if index % 10 == 0:
             print("Progress: %d / %d" % (index, total_length))
@@ -80,23 +84,27 @@ def extract_features():
             print(features.shape)
             with open("WRONG_SHAPES.txt", "a") as out_file:
                 out_file.write(curr_video_key + "\n")
-        dest_features_path = os.path.join(train_target, curr_video_key + ".npy")
+        dest_features_path = os.path.join(target_dir, curr_video_key + ".npy")
+        mac_features_path = os.path.join(mac_target_dir, curr_video_key + ".npy")
         np.save(dest_features_path, features)
+        video_path = os.path.join(mac_video_dir, class_name, file_name)
 
         label_data = dict()
         label_data["class"] = label.strip()
         label_data["features_path"] = dest_features_path
-        dest_label_path = os.path.join(train_target, curr_video_key + ".label.json")
+        label_data["video_path"] = video_path
+        label_data["mac_features_path"] = mac_features_path
+
+        dest_label_path = os.path.join(target_dir, curr_video_key + ".label.json")
         with open(dest_label_path, 'w') as outfile:
             json.dump(label_data, outfile, indent=3)
 
         visited.append(curr_video_key + "\n")
         open(log_train, "w").writelines(visited)
 
-    test_split_lines = open(test_split).readlines()
+    """test_split_lines = open(test_split).readlines()
     total_length_test = len(test_split_lines)
-    print("Length of train frame list: " + str(total_length_test))
-    index = 0
+    print("Length of test frame list: " + str(total_length_test))
 
     generate_longer = False
     augment_data = False
@@ -140,7 +148,7 @@ def extract_features():
             json.dump(label_data, outfile, indent=3)
 
         visited_test.append(curr_video_key + "\n")
-        open(log_test, "w").writelines(visited_test)
+        open(log_test, "w").writelines(visited_test)"""
 
 
 if __name__ == '__main__':
