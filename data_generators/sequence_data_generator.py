@@ -54,5 +54,5 @@ class SequenceDataGenerator(Sequence):
             name = file_name.split(" ")[0]
             class_name, video_name = name.split("/")
             full_name = class_name + "_" + video_name + ".label.json"
-            target_feature_names.append(full_name)
+            target_feature_names.append(os.path.join(self.data_dir, full_name))
         return target_feature_names
