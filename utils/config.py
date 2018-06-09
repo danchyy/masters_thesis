@@ -30,6 +30,7 @@ def process_config(json_file):
             name += "_lstm"
             for layer_dim in config.model.architecture.lstm:
                 name += "_" + str(layer_dim)
+        name = name + "_unroll" if config.model.unrolled_sequence else name
         if "dense" in config.model.architecture:
             name += "_dense"
             for layer_dim in config.model.architecture.dense:

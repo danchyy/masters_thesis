@@ -17,6 +17,9 @@
       "available": true,
       "dense": [
         1024
+      ],
+      "dropout": [
+        0.5
       ]
     }
   },
