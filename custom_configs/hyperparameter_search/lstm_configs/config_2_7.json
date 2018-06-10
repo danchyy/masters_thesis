@@ -9,7 +9,7 @@
    "model": {
       "name": "lstm_model.LSTMModel",
       "optimizing": {
-         "learning_rate": 0.001,
+         "learning_rate": 0.0001,
          "decay": 1e-06,
          "optimizer": "adam"
       },
@@ -19,21 +19,21 @@
          "lstm": [
             1024
          ],
-         "bidirectional": false,
+         "bidirectional": true,
          "dropout": [
-            0.5
+            0.2
          ],
          "dense": [
             512
          ],
          "dense_dropout": [
-            0.5
+            0.2
          ]
       }
    },
    "trainer": {
       "num_epochs": 50,
-      "batch_size": 16,
+      "batch_size": 32,
       "verbose_training": true,
       "train_split": "train01.txt",
       "test_split": "validation01.txt"

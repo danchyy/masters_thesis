@@ -21,7 +21,7 @@
          ],
          "bidirectional": false,
          "dropout": [
-            0.8
+            0.5
          ],
          "dense": [
             512

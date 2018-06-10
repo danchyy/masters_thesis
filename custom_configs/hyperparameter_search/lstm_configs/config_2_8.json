@@ -9,7 +9,7 @@
    "model": {
       "name": "lstm_model.LSTMModel",
       "optimizing": {
-         "learning_rate": 0.001,
+         "learning_rate": 0.0001,
          "decay": 1e-06,
          "optimizer": "adam"
       },
@@ -21,13 +21,13 @@
          ],
          "bidirectional": false,
          "dropout": [
-            0.5
+            0.2
          ],
          "dense": [
             512
          ],
          "dense_dropout": [
-            0.5
+            0.2
          ]
       }
    },

@@ -1,25 +1,33 @@
 {
    "exp": {
-      "name": "dnn",
+      "name": "lstm",
       "num_of_classes": 101
    },
    "data_loader": {
-      "name": "dnn_data_loader.DNNDataLoader"
+      "name": "lstm_data_loader.LSTMDataLoader"
    },
    "model": {
-      "name": "dnn_model.DNNModel",
+      "name": "lstm_model.LSTMModel",
       "optimizing": {
          "learning_rate": 0.001,
          "decay": 1e-06,
          "optimizer": "adam"
       },
+      "return_sequence": true,
       "architecture": {
          "available": true,
-         "dense": [
+         "lstm": [
             1024
          ],
+         "bidirectional": false,
          "dropout": [
-            0.8
+            0.2
+         ],
+         "dense": [
+            512
+         ],
+         "dense_dropout": [
+            0.2
          ]
       }
    },

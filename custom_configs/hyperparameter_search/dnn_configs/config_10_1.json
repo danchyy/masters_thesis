@@ -9,9 +9,9 @@
    "model": {
       "name": "dnn_model.DNNModel",
       "optimizing": {
-         "learning_rate": 0.001,
+         "learning_rate": 0.0001,
          "decay": 1e-06,
-         "optimizer": "sgd"
+         "optimizer": "adam"
       },
       "architecture": {
          "available": true,

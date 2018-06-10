@@ -19,9 +19,9 @@
          "lstm": [
             1024
          ],
-         "bidirectional": false,
+         "bidirectional": true,
          "dropout": [
-            0.5
+            0.2
          ],
          "dense": [
             512

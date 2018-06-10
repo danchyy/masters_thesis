@@ -19,7 +19,7 @@
          "lstm": [
             1024
          ],
-         "bidirectional": false,
+         "bidirectional": true,
          "dropout": [
             0.5
          ],
@@ -33,7 +33,7 @@
    },
    "trainer": {
       "num_epochs": 50,
-      "batch_size": 64,
+      "batch_size": 32,
       "verbose_training": true,
       "train_split": "train01.txt",
       "test_split": "validation01.txt"

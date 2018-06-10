@@ -8,9 +8,6 @@ python main.py --config custom_configs/hyperparameter_search/dnn_configs/config_
 python main.py --config custom_configs/hyperparameter_search/dnn_configs/config_10_7.json
 python main.py --config custom_configs/hyperparameter_search/dnn_configs/config_10_8.json
 python main.py --config custom_configs/hyperparameter_search/dnn_configs/config_10_9.json
-python main.py --config custom_configs/hyperparameter_search/dnn_configs/config_10_10.json
-python main.py --config custom_configs/hyperparameter_search/dnn_configs/config_10_11.json
-python main.py --config custom_configs/hyperparameter_search/dnn_configs/config_10_11.json
 python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_1.json
 python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_2.json
 python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_3.json
@@ -20,9 +17,6 @@ python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs
 python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_7.json
 python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_8.json
 python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_9.json
-python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_10.json
-python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_11.json
-python main.py --config custom_configs/hyperparameter_search/avg_seq_cls_configs/config_11_11.json
 python main.py --config custom_configs/hyperparameter_search/lstm_configs/config_2_1.json
 python main.py --config custom_configs/hyperparameter_search/lstm_configs/config_2_2.json
 python main.py --config custom_configs/hyperparameter_search/lstm_configs/config_2_3.json
@@ -38,6 +32,7 @@ python main.py --config custom_configs/hyperparameter_search/lstm_configs/config
 python main.py --config custom_configs/hyperparameter_search/lstm_configs/config_2_13.json
 python main.py --config custom_configs/hyperparameter_search/lstm_configs/config_2_14.json
 python main.py --config custom_configs/hyperparameter_search/lstm_configs/config_2_15.json
+python main.py --config custom_configs/hyperparameter_search/lstm_configs/config_2_16.json
 python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_1.json
 python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_2.json
 python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_3.json
@@ -47,5 +42,3 @@ python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/c
 python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_7.json
 python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_8.json
 python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_9.json
-python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_10.json
-python main.py --config custom_configs/hyperparameter_search/fine_tune_configs/config_2_11.json

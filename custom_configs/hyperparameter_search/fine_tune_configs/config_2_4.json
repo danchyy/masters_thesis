@@ -9,7 +9,7 @@
    "model": {
       "name": "fine_tuned_cnn.FineTunedCNN",
       "optimizing": {
-         "learning_rate": 0.01,
+         "learning_rate": 0.0001,
          "decay": 1e-06,
          "optimizer": "adam"
       },
@@ -25,7 +25,7 @@
    },
    "trainer": {
       "num_epochs": 50,
-      "batch_size": 32,
+      "batch_size": 64,
       "verbose_training": true,
       "train_split": "train01.txt",
       "test_split": "validation01.txt"

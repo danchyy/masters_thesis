@@ -30,11 +30,20 @@ def process_config(json_file):
             name += "_lstm"
             for layer_dim in config.model.architecture.lstm:
                 name += "_" + str(layer_dim)
-        name = name + "_unroll" if config.model.unrolled_sequence else name
+            name += "_drop"
+            for drop in config.model.architecture.dropout:
+                name += "_" + str(drop)
+        name = name + "_retseq" if config.model.return_sequence else name
         if "dense" in config.model.architecture:
             name += "_dense"
             for layer_dim in config.model.architecture.dense:
                 name += "_" + str(layer_dim)
+            name += "_drop"
+            for i in range(len(config.model.architecture.dense)):
+                if "lstm" in config.model.architecture:
+                    name += "_" + str(config.model.architecture.dense_dropout[i])
+                else:
+                    name += "_" + str(config.model.architecture.dropout[i])
     name += "_" + config.model.optimizing.optimizer
     name += "_" + str(config.model.optimizing.learning_rate)
     name += "_" + str(config.trainer.batch_size)

@@ -9,7 +9,7 @@
    "model": {
       "name": "averaged_sequences_classifier.AveragedSequencesClassifier",
       "optimizing": {
-         "learning_rate": 0.001,
+         "learning_rate": 1e-05,
          "decay": 1e-06,
          "optimizer": "adam"
       },
@@ -33,7 +33,7 @@
    },
    "trainer": {
       "num_epochs": 50,
-      "batch_size": 64,
+      "batch_size": 128,
       "verbose_training": true,
       "train_split": "train01.txt",
       "test_split": "validation01.txt"
