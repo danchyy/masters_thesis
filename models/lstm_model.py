@@ -19,7 +19,7 @@ class LSTMModel(BaseModel):
                 neurons = self.config.model.architecture.lstm[i]
                 dropout = self.config.model.architecture.dropout[i]
                 return_sequences = True if i < (len(self.config.model.architecture.lstm)-1) \
-                    else self.config.model.unrolled_sequence
+                    else self.config.model.return_sequence
                 if i == 0:
                     x = LSTM(neurons, return_sequences=return_sequences, dropout=dropout)(input)
                 else:
@@ -30,13 +30,13 @@ class LSTMModel(BaseModel):
                 x = Dense(neurons, activation="relu")(x)
                 x = Dropout(dropout_rate)(x)
         else:
-            x = LSTM(1024, return_sequences=self.config.model.unrolled_sequence, dropout=0.5)(input)
+            x = LSTM(1024, return_sequences=self.config.model.return_sequence, dropout=0.5)(input)
             x = Dense(512, activation="relu")(x)
             x = Dropout(0.5)(x)
 
         # classifier
         predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
-        if self.config.model.unrolled_sequence:
+        if self.config.model.return_sequence:
             predictions = AveragePooling1D(pool_size=constants.LSTM_SEQUENCE_LENGTH)(predictions)
             predictions = Flatten()(predictions)
         self.model = Model(inputs=input, outputs=predictions)

@@ -13,7 +13,7 @@
       "decay": 1e-6,
       "optimizer": "adam"
     },
-    "unrolled_sequence": true,
+    "return_sequence": true,
     "architecture": {
       "available": true,
       "lstm": [
