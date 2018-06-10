@@ -24,7 +24,7 @@
       }
    },
    "trainer": {
-      "num_epochs": 50,
+      "num_epochs": 60,
       "batch_size": 32,
       "verbose_training": true,
       "train_split": "train01.txt",
@@ -39,7 +39,7 @@
       "checkpoint_verbose": true,
       "tensorboard_write_graph": true,
       "early_stopping": {
-         "available": true,
+         "available": false,
          "patience": 7,
          "monitor": "val_loss"
       }

@@ -39,7 +39,7 @@
       "checkpoint_verbose": true,
       "tensorboard_write_graph": true,
       "early_stopping": {
-         "available": true,
+         "available": false,
          "patience": 7,
          "monitor": "val_loss"
       }
