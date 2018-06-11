@@ -9,9 +9,11 @@
    "model": {
       "name": "dnn_model.DNNModel",
       "optimizing": {
-         "learning_rate": 1e-05,
+         "learning_rate": 0.0001,
          "decay": 1e-06,
-         "optimizer": "adam"
+         "optimizer": "sgd",
+         "momentum": 0.9,
+         "nesterov": true
       },
       "architecture": {
          "available": true,
@@ -24,8 +26,8 @@
       }
    },
    "trainer": {
-      "num_epochs": 100,
-      "batch_size": 32,
+      "num_epochs": 200,
+      "batch_size": 64,
       "verbose_training": true,
       "train_split": "train01.txt",
       "test_split": "validation01.txt"

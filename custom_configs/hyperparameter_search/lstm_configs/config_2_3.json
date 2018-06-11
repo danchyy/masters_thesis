@@ -9,9 +9,11 @@
    "model": {
       "name": "lstm_model.LSTMModel",
       "optimizing": {
-         "learning_rate": 0.0001,
+         "learning_rate": 1e-05,
          "decay": 1e-06,
-         "optimizer": "adam"
+         "optimizer": "sgd",
+         "momentum": 0.9,
+         "nesterov": true
       },
       "return_sequence": true,
       "architecture": {
@@ -27,12 +29,12 @@
             512
          ],
          "dense_dropout": [
-            0.2
+            0.5
          ]
       }
    },
    "trainer": {
-      "num_epochs": 50,
+      "num_epochs": 200,
       "batch_size": 32,
       "verbose_training": true,
       "train_split": "train01.txt",
@@ -47,7 +49,7 @@
       "checkpoint_verbose": true,
       "tensorboard_write_graph": true,
       "early_stopping": {
-         "available": true,
+         "available": false,
          "patience": 7,
          "monitor": "val_loss"
       }
