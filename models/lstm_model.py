@@ -44,7 +44,9 @@ class LSTMModel(BaseModel):
         optimizer = optimizers.get(self.config.model.optimizing.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
         optimizer.lr = self.config.model.optimizing.learning_rate
-        if self.config.model.optimizing.optimizer in ["adam", "rmsprop"]:
-            optimizer.decay = self.config.model.decay
+        if self.config.model.optimizing.optimizer == "sgd":
+            optimizer.nesterov = self.config.model.optimizing.nesterov
+            optimizer.momentum = self.config.model.optimizing.momentum
+        optimizer.decay = self.config.model.decay
         self.model.compile(optimizer=optimizer, loss="categorical_crossentropy", metrics=self.metrics)
         return self.model
