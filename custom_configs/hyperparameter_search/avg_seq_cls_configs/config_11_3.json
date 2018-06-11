@@ -34,7 +34,7 @@
       }
    },
    "trainer": {
-      "num_epochs": 200,
+      "num_epochs": 400,
       "batch_size": 64,
       "verbose_training": true,
       "train_split": "train01.txt",
