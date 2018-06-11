@@ -24,6 +24,19 @@ def get_ucf_101_dict():
         class_dict[splitted_line[1].strip()] = int(splitted_line[0])
     return class_dict
 
+def get_ucf_101_label_dict():
+    """
+
+    :return: Dict with key->value as label->class
+    """
+    class_lines = open(os.path.join(constants.UCF_101_DATA_SPLITS,
+                                    constants.UCF_101_CLASS_FILE_NAME)).readlines()
+    class_dict = dict()
+    for line in class_lines:
+        splitted_line = line.split(" ")
+        class_dict[int(splitted_line[0])] = splitted_line[1].strip()
+    return class_dict
+
 
 def get_number_of_classes():
     class_lines = open(os.path.join(constants.UCF_101_DATA_SPLITS,
