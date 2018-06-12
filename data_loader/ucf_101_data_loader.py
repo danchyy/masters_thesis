@@ -8,7 +8,8 @@ import cv2
 
 class Ucf101DataLoader(BaseDataLoader):
 
-    def __init__(self, config: dict, train_split, test_split, generate_longer=False, augment_data=False):
+    def __init__(self, config: dict, train_split, test_split, generate_longer=False, augment_data=False,
+                 generate_flow=False):
         super().__init__(config)
         self.frames_dir = constants.UCF_101_FRAMES_DIR
         self.train_lines = open(train_split).readlines()
@@ -17,6 +18,7 @@ class Ucf101DataLoader(BaseDataLoader):
         self.class_dict = get_ucf_101_dict()
         self.generate_longer = generate_longer
         self.augment_data = augment_data
+        self.generate_flow = generate_flow
 
     def parse_train_split_row(self, train_row):
         label = train_row.split(" ")[1]
@@ -38,7 +40,10 @@ class Ucf101DataLoader(BaseDataLoader):
         for row in self.train_lines:
             class_name, file_name, label = self.parse_train_split_row(row)
             # final_name = class_name + "_" + file_name
-            yield class_name, file_name, self.load_frames_from_video(class_name, file_name), label
+            if self.generate_flow:
+                yield class_name, file_name, self.get_optical_flow_of_images(class_name, file_name), label
+            else:
+                yield class_name, file_name, self.load_frames_from_video(class_name, file_name), label
 
     def retrieve_test_data_gen(self, parse_train=False):
         """
@@ -135,6 +140,50 @@ class Ucf101DataLoader(BaseDataLoader):
             image = self.augment_image(image)
             frames.append(image)
         frames = frames[:target_length]
+        return frames
+
+    def get_optical_flow_of_images(self, class_name, file_name):
+        full_path = os.path.join(constants.UCF_101_DATA_DIR, class_name, file_name)
+        cap = cv2.VideoCapture(full_path)
+
+        length = self.get_length_of_video(capture=cap)
+        cap = cv2.VideoCapture(full_path)
+        frames = []
+        ret, frame1 = cap.read()
+
+        if not self.generate_longer:
+            target_length = constants.LSTM_SEQUENCE_LENGTH
+        else:
+            target_length = constants.LSTM_SEQUENCE_LENGTH_GENERATION
+
+        indices_for_sequence = [int(a) for a in np.arange(0, length, length / target_length)]
+        prvs = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+        hsv = np.zeros_like(frame1)
+        hsv[..., 1] = 0
+        count = 0
+        while ret:
+            ret, frame2 = cap.read()
+            if not ret:
+                break
+            if count in indices_for_sequence:
+                next = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+                flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 7, 1.5,
+                                                    cv2.OPTFLOW_FARNEBACK_GAUSSIAN)
+                mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
+                hsv[..., 0] = ang * 180 / np.pi / 2
+                hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
+                bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+                bgr = self.augment_image(bgr)
+                frames.append(bgr)
+                if length < target_length:
+                    frames.append(bgr)
+                prvs = next
+            count += 1
+        frames = frames[:target_length]
+        if len(frames) != target_length:
+            f = open("wrong_length_flow.txt", "a")
+            f.write(full_path + "\n")
+            f.close()
         return frames
 
     def get_train_data(self):

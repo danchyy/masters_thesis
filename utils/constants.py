@@ -28,6 +28,8 @@ UCF_101_EXTRACTED_FEATURES = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracte
 
 UCF_101_EXTRACTED_FEATURES_TEST_1 = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracted_features_test_1")
 
+UCF_101_EXTRACTED_FLOW = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracted_flow")
+
 FINE_TUNED_CONFIG = os.path.join(ROOT_FOLDER, "configs", "fine_tune_config.json")
 
 LSTM_CONFIG = os.path.join(ROOT_FOLDER, "configs", "lstm_config.json")
