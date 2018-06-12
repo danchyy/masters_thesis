@@ -32,7 +32,7 @@ FINE_TUNED_CONFIG = os.path.join(ROOT_FOLDER, "configs", "fine_tune_config.json"
 
 LSTM_CONFIG = os.path.join(ROOT_FOLDER, "configs", "lstm_config.json")
 
-DNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "dnn_configs.json")
+DNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "dnn_config.json")
 
 CUSTOM_CONFIGS_DIR = os.path.join(ROOT_FOLDER, "custom_configs")
 
