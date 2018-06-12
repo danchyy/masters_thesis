@@ -17,7 +17,7 @@ class AveragedSequencesClassifier(BaseModel):
                 dense_num = self.config.model.architecture.dense[i]
                 dropout_rate = self.config.model.architecture.dropout[i]
                 if i == 0:
-                    x = Dense(dense_num, activation="relu")(input)
+                    x = Dense(dense_num, activation="relu")(input_layer)
                 else:
                     x = Dense(dense_num, activation="relu")(x)
                 x = Dropout(dropout_rate)(x)
