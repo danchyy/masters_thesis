@@ -43,6 +43,11 @@ target_config_dir = "avg_seq_cls_configs"
 # 11 -> avg_seq
 # 2 -> lstm
 # 2 -> fine_tune
+
+# DNN -> nadam, 1e-4, 64, 0.5 drop
+# AVG SEQ -> adam/nadam, 1e-4, 64, 0.5 drop
+# LSTM -> bi_directional, 0.5/0.5, 1e-4, 32 batch, adam/nadam
+# FINE_TUNE -> 1e-4, 32 batch, adam/nadam
 target_config = "config_11.json"
 is_lstm = True if "lstm" in target_config_dir else False
 index = target_config.split(".")[0].split("_")[1]

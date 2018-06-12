@@ -11,8 +11,19 @@ class AveragedSequencesClassifier(BaseModel):
 
     def build_model(self):
         input_layer = Input(shape=(1, constants.LSTM_FEATURE_SIZE))
-        x = Dense(1024, activation="relu")(input_layer)
-        x = Dropout(0.5)(x)
+
+        if self.config.model.architecture.available:
+            for i in range(len(self.config.model.architecture.dense)):
+                dense_num = self.config.model.architecture.dense[i]
+                dropout_rate = self.config.model.architecture.dropout[i]
+                if i == 0:
+                    x = Dense(dense_num, activation="relu")(input)
+                else:
+                    x = Dense(dense_num, activation="relu")(x)
+                x = Dropout(dropout_rate)(x)
+        else:
+            x = Dense(1024, activation="relu")(input_layer)
+            x = Dropout(0.5)(x)
 
         x = Flatten()(x)
         predictions = Dense(self.config.exp.num_of_classes, activation="softmax")(x)
