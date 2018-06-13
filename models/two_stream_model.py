@@ -1,5 +1,5 @@
 from base.base_model import BaseModel
-from keras.layers import Dense, Dropout, Flatten, TimeDistributed, AveragePooling1D, Average
+from keras.layers import Dense, Dropout, Flatten, TimeDistributed, AveragePooling1D, average
 from keras import optimizers, Input
 from utils import constants
 from keras.models import Model
@@ -45,7 +45,7 @@ class TwoStreamModel(BaseModel):
         predictions_flow = AveragePooling1D(pool_size=constants.LSTM_SEQUENCE_LENGTH)(x_flow)
         predictions_flow = Flatten()(predictions_flow)
 
-        averaged_predictions = Average([predictions_normal, predictions_flow])
+        averaged_predictions = average([predictions_normal, predictions_flow])
         self.model = Model(inputs=[input_normal, input_flow], outputs=averaged_predictions)
         optimizer = optimizers.get(self.config.model.optimizing.optimizer)
         assert isinstance(optimizer, optimizers.Optimizer)
