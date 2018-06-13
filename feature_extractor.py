@@ -20,15 +20,16 @@ def extract_features():
     train_split = os.path.join(constants.UCF_101_DATA_SPLITS, "all_train_lines.txt")
     test_split = os.path.join(constants.UCF_101_DATA_SPLITS, "all_test_lines.txt")
     target_dir_flow = constants.UCF_101_EXTRACTED_FLOW
-    target_dir = constants.UCF_101_EXTRACTED_FEATURES
+    target_dir = constants.UCF_101_EXTRACTED_FEATURES_NO_GLOB_POOL
     mac_target_dir = constants.LOCAL_EXTRACTED_FEATURES_DATA
     mac_video_dir = constants.LOCAL_VIDEO_DATA_FOLDER
     # train_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "train")
     # test_target = os.path.join(constants.UCF_101_LSTM_DATA_AUGMENT, "test")
 
+    pooling = True
     generate_longer = False
     augment_data = True
-    generate_flow = True
+    generate_flow = False
     if generate_flow:
         target_dir = target_dir_flow
     data_loader = Ucf101DataLoader(config=dict(), train_split=train_split, test_split=test_split,
@@ -39,7 +40,7 @@ def extract_features():
     pre_model = InceptionV3(weights='imagenet', include_top=False, input_shape=(constants.IMAGE_DIMS[0],
                                                                                 constants.IMAGE_DIMS[1], 3))
     x = pre_model.output
-    x = GlobalAveragePooling2D()(x)
+    # x = GlobalAveragePooling2D()(x)
     model = Model(inputs=pre_model.input, outputs=x)
     log_train = "log_train.txt"
     if os.path.exists(log_train):
@@ -57,6 +58,8 @@ def extract_features():
         target_dim = (constants.LSTM_SEQUENCE_LENGTH_GENERATION, constants.LSTM_FEATURE_SIZE)
     else:
         target_dim = (constants.LSTM_SEQUENCE_LENGTH, constants.LSTM_FEATURE_SIZE)
+    if pooling:
+        target_dim = (constants.LSTM_SEQUENCE_LENGTH, 8, 8, constants.LSTM_FEATURE_SIZE)
 
     for class_name, file_name, curr_video, label in data_loader.retrieve_train_data_gen():
         curr_video_key = class_name + "_" + file_name

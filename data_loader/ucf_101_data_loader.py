@@ -143,6 +143,7 @@ class Ucf101DataLoader(BaseDataLoader):
         return frames
 
     def get_optical_flow_of_images(self, class_name, file_name):
+        print("IM IN FLOW")
         full_path = os.path.join(constants.UCF_101_DATA_DIR, class_name, file_name)
         cap = cv2.VideoCapture(full_path)
 

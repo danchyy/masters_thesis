@@ -26,6 +26,8 @@ UCF_101_LSTM_DATA_AUGMENT = os.path.join(ROOT_FOLDER, "data", "UCF_101_LSTM_augm
 
 UCF_101_EXTRACTED_FEATURES = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracted_features")
 
+UCF_101_EXTRACTED_FEATURES_NO_GLOB_POOL = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracted_features_no_glob_pool")
+
 UCF_101_EXTRACTED_FEATURES_TEST_1 = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracted_features_test_1")
 
 UCF_101_EXTRACTED_FLOW = os.path.join(ROOT_FOLDER, "data", "UCF_101_extracted_flow")
