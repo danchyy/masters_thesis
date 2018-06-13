@@ -47,6 +47,7 @@ def process_config(json_file):
     name += "_" + config.model.optimizing.optimizer
     name += "_" + str(config.model.optimizing.learning_rate)
     name += "_" + str(config.trainer.batch_size)
+    name += "_" + str(config.trainer.train_split)
     config.callbacks.tensorboard_log_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
                                                         time.localtime()), "logs/")
     config.callbacks.checkpoint_dir = os.path.join("experiments", name, time.strftime("%Y-%m-%d-%H-%M-%S/",
