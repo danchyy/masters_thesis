@@ -69,6 +69,7 @@ class SequenceDataGenerator(Sequence):
         file_names = open(self.split).readlines()
         target_feature_names = []
         for file_name in file_names:
+            file_name = file_name.strip()
             name = file_name.split(" ")[0]
             class_name, video_name = name.split("/")
             full_name = class_name + "_" + video_name + ".label.json"
