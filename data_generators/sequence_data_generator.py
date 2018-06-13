@@ -22,7 +22,7 @@ class SequenceDataGenerator(Sequence):
         self.indices_subsample = np.arange(0, 50)
         self.load_two_streams = load_two_streams
         self.opt_flow_dir = constants.UCF_101_EXTRACTED_FLOW
-        self.flow_file_names = self.get_file_names(is_flow=True)
+        self.flow_file_names = self.get_file_names(is_flow=load_two_streams)
 
     def __getitem__(self, index):
         start_index, end_index = index * self.batch_size, (index + 1) * self.batch_size
