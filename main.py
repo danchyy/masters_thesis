@@ -82,7 +82,8 @@ if __name__ == '__main__':
                                                                           "fine_tune - FineTuned\n"
                                                                           "dnn - DNNModel\n"
                                                                           "time_cnn - TimeDistributedCNN\n"
-                                                                          "avg_seq_cls - AveragedSequencesClassifier")
+                                                                          "avg_seq_cls - AveragedSequencesClassifier\n"
+                                                                          "two_stream - TwoStreamModel")
 
     args = parser.parse_args()
     main(args.memory_frac, args.config, args.model_type)
