@@ -1,0 +1,53 @@
+{
+  "exp": {
+    "name": "two_stream",
+    "num_of_classes": 101
+  },
+  "data_loader": {
+    "name": "two_stream_data_loader.TwoStreamDataLoader"
+  },
+  "model":{
+    "name": "two_stream_model.TwoStreamModel",
+    "optimizing": {
+      "learning_rate": 0.0001,
+      "decay": 1e-6,
+      "optimizer": "adam"
+    },
+    "architecture": {
+      "available": false,
+      "dense_normal": [
+        1024
+      ],
+      "dropout_normal": [
+        0.5
+      ],
+      "dense_flow": [
+        512
+      ],
+      "dropout_flow": [
+        0.5
+      ]
+    }
+  },
+  "trainer":{
+    "num_epochs": 80,
+    "batch_size": 64,
+    "verbose_training": true,
+    "train_split": "train01.txt",
+    "test_split": "validation01.txt"
+  },
+  "callbacks":{
+    "save_every_n": 1,
+    "checkpoint_monitor": "val_acc",
+    "checkpoint_mode": "max",
+    "checkpoint_save_best_only": true,
+    "checkpoint_save_weights_only": true,
+    "checkpoint_verbose": true,
+    "tensorboard_write_graph": true,
+    "early_stopping": {
+      "available": false,
+      "patience": 7,
+      "monitor": "val_loss"
+    }
+  }
+}

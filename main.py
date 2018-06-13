@@ -17,7 +17,8 @@ config_dict = {
     "fine_tuned": constants.FINE_TUNED_CONFIG,
     "dnn": constants.DNN_CONFIG,
     "time_cnn": constants.TIME_DISTRIBUTED_CNN_CONFIG,
-    "avg_seq_cls": constants.AVERAGED_SEQUENCES_CLASSIFIER_CONFIG
+    "avg_seq_cls": constants.AVERAGED_SEQUENCES_CLASSIFIER_CONFIG,
+    "two_stream": constants.TWO_STREAM_CONFIG
 }
 
 

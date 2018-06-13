@@ -42,6 +42,8 @@ TIME_DISTRIBUTED_CNN_CONFIG = os.path.join(ROOT_FOLDER, "configs", "time_distrib
 
 AVERAGED_SEQUENCES_CLASSIFIER_CONFIG = os.path.join(ROOT_FOLDER, "configs", "averaged_sequences_classifier_config.json")
 
+TWO_STREAM_CONFIG = os.path.join(ROOT_FOLDER, "configs", "two_stream_config.json")
+
 EXPORTED_MODELS_DIR = os.path.join(ROOT_FOLDER, "exported_models")
 
 LOCAL_VIDEO_DATA_FOLDER = "/Users/daniel/myWork/masters_thesis/data/UCF_101"
