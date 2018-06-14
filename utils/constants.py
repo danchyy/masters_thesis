@@ -6,6 +6,12 @@ UCF_101_DATA_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101")
 
 UCF_101_CNN_DATA_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101_cnn_data")
 
+UCF_101_CNN_DATA_DIR_1 = os.path.join(ROOT_FOLDER, "data", "UCF_101_cnn_data_split1")
+
+UCF_101_CNN_DATA_DIR_2 = os.path.join(ROOT_FOLDER, "data", "UCF_101_cnn_data_split2")
+
+UCF_101_CNN_DATA_DIR_3 = os.path.join(ROOT_FOLDER, "data", "UCF_101_cnn_data_split3")
+
 UCF_101_FRAMES_DIR = os.path.join(ROOT_FOLDER, "data", "UCF_101_frames")
 
 UCF_101_DATA_SPLITS = os.path.join(ROOT_FOLDER, "data_splits")
