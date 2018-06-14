@@ -8,7 +8,8 @@ class FineTunedDataLoader(BaseDataLoader):
 
     def __init__(self, config):
         super().__init__(config)
-        self.train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+        self.train_datagen = ImageDataGenerator(rotation_range=10, horizontal_flip=0.5,
+                                                shear_range=0.2,zoom_range=0.2, preprocessing_function=preprocess_input)
         self.test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
         self.train_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR, "train")
         self.test_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR, "validation")
