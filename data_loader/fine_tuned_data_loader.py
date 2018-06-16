@@ -11,8 +11,14 @@ class FineTunedDataLoader(BaseDataLoader):
         self.train_datagen = ImageDataGenerator(rotation_range=10, horizontal_flip=0.5,
                                                 shear_range=0.2,zoom_range=0.2, preprocessing_function=preprocess_input)
         self.test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
-        self.train_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR, "train")
-        self.test_dir = os.path.join(constants.UCF_101_CNN_DATA_DIR, "validation")
+        train_split = self.config.trainer.train_split
+        data_dir = constants.UCF_101_CNN_DATA_DIR_1
+        if train_split == "train_val02.txt":
+            data_dir = constants.UCF_101_CNN_DATA_DIR_2
+        if train_split == "train_val03.txt":
+            data_dir = constants.UCF_101_CNN_DATA_DIR_3
+        self.train_dir = os.path.join(data_dir, "train")
+        self.test_dir = os.path.join(data_dir, "test")
 
     def get_train_data(self):
         return self.train_datagen.flow_from_directory(
