@@ -1,3 +1,5 @@
+import sys
+
 from utils import constants
 import os
 from shutil import copyfile
@@ -68,68 +70,84 @@ def get_mid_frame_of_video(f_p):
     mid_index = int(length / 2)
     while success:
         if count == mid_index:
-            image = augment_image(image)
+            # image = augment_image(image)
             return image
         success, image = cap.read()
         count += 1
 
 
-target_dir = constants.UCF_101_CNN_DATA_DIR_1
-source_dir = constants.UCF_101_DATA_DIR
+def create_data(train_list, test_list):
 
-train_split = open(os.path.join(constants.UCF_101_DATA_SPLITS, "train_val01.txt"), "r").readlines()
+    target_dir = constants.UCF_101_CNN_DATA_DIR_1
+    source_dir = constants.UCF_101_DATA_DIR
+    if "02" in train_list:
+        target_dir = constants.UCF_101_CNN_DATA_DIR_2
+    elif "03" in train_list:
+        target_dir = constants.UCF_101_CNN_DATA_DIR_3
 
-test_split = open(os.path.join(constants.UCF_101_DATA_SPLITS, "test01.txt"), "r").readlines()
+    train_split = open(os.path.join(constants.UCF_101_DATA_SPLITS, train_list), "r").readlines()
 
-train_test_dict = create_train_test_dict(train_split, test_split)
+    test_split = open(os.path.join(constants.UCF_101_DATA_SPLITS, test_list), "r").readlines()
 
-for line in train_split:
-    line = line.strip().split(" ")[0]
-    class_name, video_name = line.split("/")[0], line.split("/")[1]
-    video_path = os.path.join(source_dir, class_name, video_name)
-    target_dir_path = os.path.join(target_dir, "train", class_name)
-    if not os.path.exists(target_dir_path):
-        os.makedirs(target_dir_path)
-    full_path = os.path.join(target_dir_path, video_name.split(".")[0] + ".png")
-    mid_frame = get_mid_frame_of_video(video_path)
-    cv2.imwrite(full_path, mid_frame)
+    train_test_dict = create_train_test_dict(train_split, test_split)
 
-for line in test_split:
-    line = line.strip().split(" ")[0]
-    class_name, video_name = line.split("/")[0], line.split("/")[1]
-    video_path = os.path.join(source_dir, class_name, video_name)
-    target_dir_path = os.path.join(target_dir, "test", class_name)
-    if not os.path.exists(target_dir_path):
-        os.makedirs(target_dir_path)
-    full_path = os.path.join(target_dir_path, video_name.split(".")[0] + ".png")
-    mid_frame = get_mid_frame_of_video(video_path)
-    cv2.imwrite(full_path, mid_frame)
+    print("Started with: " + train_list)
 
-"""
-for class_name in os.listdir(source_dir):
-    if class_name.startswith("."):
-        continue
-    class_path = os.path.join(source_dir, class_name)
-    video_names = os.listdir(class_path)
-    train_dest_path = os.path.join(target_dir, "train", class_name)
-    test_dest_path = os.path.join(target_dir, "test", class_name)
-    if not os.path.exists(train_dest_path):
-        os.makedirs(train_dest_path)
-        os.makedirs(test_dest_path)
-    for video_name in video_names:
-        if video_name.startswith("."):
+    for line in train_split:
+        line = line.strip().split(" ")[0]
+        class_name, video_name = line.split("/")[0], line.split("/")[1]
+        video_path = os.path.join(source_dir, class_name, video_name)
+        target_dir_path = os.path.join(target_dir, "train", class_name)
+        if not os.path.exists(target_dir_path):
+            os.makedirs(target_dir_path)
+        full_path = os.path.join(target_dir_path, video_name.split(".")[0] + ".png")
+        mid_frame = get_mid_frame_of_video(video_path)
+        cv2.imwrite(full_path, mid_frame)
+
+    print("Started with: " + test_list)
+
+    for line in test_split:
+        line = line.strip().split(" ")[0]
+        class_name, video_name = line.split("/")[0], line.split("/")[1]
+        video_path = os.path.join(source_dir, class_name, video_name)
+        target_dir_path = os.path.join(target_dir, "test", class_name)
+        if not os.path.exists(target_dir_path):
+            os.makedirs(target_dir_path)
+        full_path = os.path.join(target_dir_path, video_name.split(".")[0] + ".png")
+        mid_frame = get_mid_frame_of_video(video_path)
+        cv2.imwrite(full_path, mid_frame)
+
+    """
+    for class_name in os.listdir(source_dir):
+        if class_name.startswith("."):
             continue
-        if video_name not in train_test_dict:
-            continue
-        video_name_path = os.path.join(class_path, video_name)
-        frame_in_middle = len(os.listdir(video_name_path)) // 2
-        frame_path = os.path.join(video_name_path, "frame_" + str(frame_in_middle) + ".jpg")
-        if train_test_dict[video_name] == "TRAIN":
-            copyfile(frame_path,
-                     os.path.join(target_dir, "train", class_name, video_name + "frame_" + str(frame_in_middle)
-                                  + ".jpg"))
-        elif train_test_dict[video_name] == "TEST":
-            copyfile(frame_path,
-                     os.path.join(target_dir, "validation", class_name, video_name + "_frame_" + str(frame_in_middle)
-                                  + ".jpg"))
-"""
+        class_path = os.path.join(source_dir, class_name)
+        video_names = os.listdir(class_path)
+        train_dest_path = os.path.join(target_dir, "train", class_name)
+        test_dest_path = os.path.join(target_dir, "test", class_name)
+        if not os.path.exists(train_dest_path):
+            os.makedirs(train_dest_path)
+            os.makedirs(test_dest_path)
+        for video_name in video_names:
+            if video_name.startswith("."):
+                continue
+            if video_name not in train_test_dict:
+                continue
+            video_name_path = os.path.join(class_path, video_name)
+            frame_in_middle = len(os.listdir(video_name_path)) // 2
+            frame_path = os.path.join(video_name_path, "frame_" + str(frame_in_middle) + ".jpg")
+            if train_test_dict[video_name] == "TRAIN":
+                copyfile(frame_path,
+                         os.path.join(target_dir, "train", class_name, video_name + "frame_" + str(frame_in_middle)
+                                      + ".jpg"))
+            elif train_test_dict[video_name] == "TEST":
+                copyfile(frame_path,
+                         os.path.join(target_dir, "validation", class_name, video_name + "_frame_" + str(frame_in_middle)
+                                      + ".jpg"))
+    """
+
+
+if __name__ == '__main__':
+
+    train_set, test_set = sys.argv[1], sys.argv[2]
+    create_data(train_set, test_set)
