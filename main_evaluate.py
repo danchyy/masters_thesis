@@ -32,7 +32,7 @@ def main(model_dir):
     model.load(checkpoint_path)
     scores_dict = trainer.evaluate()
     for metric in scores_dict:
-        open(os.path.join(model_dir, metric + ".txt")).write(str(scores_dict[metric]))
+        open(os.path.join(model_dir, metric + ".txt"), "w").write(str(scores_dict[metric]))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parser for testing of deep neural net. directory of model must be '
