@@ -1,0 +1,14 @@
+#!/bin/bash
+python main_evaluate.py --model_dir exported_models/avg_seq_cls_dense_1024_drop_0.5_nadam_0.0001_64_train_val01.txt
+python main_evaluate.py --model_dir exported_models/avg_seq_cls_dense_1024_drop_0.5_nadam_0.0001_64_train_val02.txt
+python main_evaluate.py --model_dir exported_models/avg_seq_cls_dense_1024_drop_0.5_nadam_0.0001_64_train_val03.txt
+python main_evaluate.py --model_dir exported_models/dnn_dense_1024_adam_0.001_32
+python main_evaluate.py --model_dir exported_models/dnn_dense_1024_drop_0.5_nadam_0.0001_64_train_val01.txt
+python main_evaluate.py --model_dir exported_models/dnn_dense_1024_drop_0.5_nadam_0.0001_64_train_val02.txt
+python main_evaluate.py --model_dir exported_models/dnn_dense_1024_drop_0.5_nadam_0.0001_64_train_val03.txt
+python main_evaluate.py --model_dir exported_models/fine_tune_inception_dense_1024_drop_0.5_nadam_0.0001_64_train_val01.txt
+python main_evaluate.py --model_dir exported_models/fine_tune_inception_dense_1024_drop_0.5_nadam_0.0001_64_train_val02.txt
+python main_evaluate.py --model_dir exported_models/fine_tune_inception_dense_1024_drop_0.5_nadam_0.0001_64_train_val03.txt
+python main_evaluate.py --model_dir exported_models/lstm_bi_lstm_1024_drop_0.5_retseq_dense_512_drop_0.5_nadam_0.0001_32_train_val01.txt
+python main_evaluate.py --model_dir exported_models/lstm_bi_lstm_1024_drop_0.5_retseq_dense_512_drop_0.5_nadam_0.0001_32_train_val02.txt
+python main_evaluate.py --model_dir exported_models/lstm_bi_lstm_1024_drop_0.5_retseq_dense_512_drop_0.5_nadam_0.0001_32_train_val03.txt
