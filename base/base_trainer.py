@@ -2,6 +2,7 @@ import os
 
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
 from utils.util_script import get_number_of_items
+from keras.models import Model
 
 
 class BaseTrain(object):
@@ -43,6 +44,17 @@ class BaseTrain(object):
             values = [str(value) + "\n" for value in history.history[metric]]
             open(os.path.join(result_dir, metric + ".txt"), "w").writelines(values)
         open(os.path.join(result_dir, "best_val_acc.txt"), "w").write(str(max(self.val_acc)))
+
+    def evaluate(self):
+        assert isinstance(self.model, Model)
+        scores = self.model.evaluate_generator(self.validation_generator, get_number_of_items(self.test_split))
+        scores_dict = {}
+        for i in range(len(scores)):
+            metric_name, score = self.model.metrics_names[i], scores[i]
+            print(metric_name + " : " + str(score))
+            scores_dict[metric_name] = score
+        return scores_dict
+
 
     def init_callbacks(self):
         self.callbacks.append(
