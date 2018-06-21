@@ -17,6 +17,7 @@ def main(model_dir):
 
     # process the json configuration file
     config = process_config(config_path)
+    config.trainer.batch_size = 1
 
     print('Create the data generator.')
     data_loader = factory.create("data_loader." + config.data_loader.name)(config)
